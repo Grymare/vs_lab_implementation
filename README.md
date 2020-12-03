@@ -1,6 +1,10 @@
 vs_lab_implementation
 
-## First build eureka using the Dockerfile by executing:
+## First build eureka with maven: 
+
+```mvn package spring-boot:repackage```
+
+## Build the docker container by using the Dockerfile by executing:
 
 ```docker build -t eureka_server eureka-server```
 
