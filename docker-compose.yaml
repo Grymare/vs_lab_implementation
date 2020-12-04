@@ -2,3 +2,8 @@ eureka_server:
     image: eureka_server
     ports: #mapping the port 
       - "8761:8761"
+
+  core_service_category:
+    image: core_service_category
+    ports:
+      - "5432:5432"
