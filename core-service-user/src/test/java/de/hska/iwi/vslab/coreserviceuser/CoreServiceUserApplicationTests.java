@@ -1,10 +1,10 @@
-package de.hska.iwi.vslab.coreservicecategory;
+package de.hska.iwi.vslab.coreserviceuser;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class CoreServiceCategoryApplicationTests {
+class CoreServiceUserApplicationTests {
 
 	@Test
 	void contextLoads() {

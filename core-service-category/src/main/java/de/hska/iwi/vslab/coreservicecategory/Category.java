@@ -1,8 +1,5 @@
 package de.hska.iwi.vslab.coreservicecategory;
 
-
-    
-    
 public class Category implements java.io.Serializable {
 
 	private int id;
