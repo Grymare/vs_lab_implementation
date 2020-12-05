@@ -1,3 +1,6 @@
+
+## Source to this project template: https://spring.io/guides/gs/accessing-data-mysql/
+
 ## build with 
 
 ```mvn clean package```
