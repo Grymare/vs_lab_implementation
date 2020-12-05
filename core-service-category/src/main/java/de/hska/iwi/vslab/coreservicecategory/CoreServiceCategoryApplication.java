@@ -12,4 +12,12 @@ public class CoreServiceCategoryApplication {
 		SpringApplication.run(CoreServiceCategoryApplication.class, args);
 	}
 
+
+
+
+
+
+
+
+	
 }
