@@ -6,7 +6,7 @@ PASSWORD IS: postgres
 
 ## Start server with 
 
-``` docker run -p 5432:5444 database_category ```
+``` docker run -p 5444:5432 database_category ```
 ## commect to DB with the following command:
 
 ```psql -h localhost -p 5444 -U postgres ```
