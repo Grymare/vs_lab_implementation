@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>de.hska.iwi.vslab</groupId>
-	<artifactId>core-service-category</artifactId>
+	<artifactId>core-service-product</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>core-service-category</name>
+	<name>core-service-product</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>

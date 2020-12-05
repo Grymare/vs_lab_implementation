@@ -1,4 +1,4 @@
-package de.hska.iwi.vslab.coreservicecategory;
+package de.hska.iwi.vslab.coreserviceuser;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,10 +6,10 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-public class CoreServiceCategoryApplication {
+public class CoreServiceUserApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CoreServiceCategoryApplication.class, args);
+		SpringApplication.run(CoreServiceUserApplicationass, args);
 	}
 
 

@@ -1,0 +1,13 @@
+server:
+    port: 8791
+
+eureka:
+    instance:
+        leaseRenewalIntervalInSeconds: 10
+        statusPageUrlPath: /info
+        healthCheckUrlPath: /health    
+        
+zuul:
+    ignoredServices: '*'
+    routes:
+        composite-product-category: /composite/**
