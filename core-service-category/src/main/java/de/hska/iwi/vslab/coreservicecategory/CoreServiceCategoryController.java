@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CoreServiceCategoryController {
 
     @Autowired
-    private DatabaseCategory dbC;
+    private DatabaseCategory dbCategory;
 
     /**
      * Gibt alle Kategorien zurück die es in der Datenbank gibt
@@ -25,35 +25,36 @@ public class CoreServiceCategoryController {
     @RequestMapping(value="/Category", method=RequestMethod.GET)
         public ResponseEntity<Category> getCategories() {
 
-            List<Category> categoryList = dbC.findAll?idontfuckingknow(); //schauen wie wir aus der DB auslesen können
+            List<Category> categoryList = dbCategory.findAll?idontfuckingknow(); //schauen wie wir aus der DB auslesen können
             return new ResponseEntity<>(categoryList, HttpStatus.OK);
         }
 
-        /**
-         * Erstellt ein neues Category-Objekt mit dem übermittelten Kategoriennamen
-         * @param categoryName Name der neuen Kategorie
-         * @return gibt einen HTTP Status 200 zurück 
-         */
+    /**
+     * Erstellt ein neues Category-Objekt mit dem übermittelten Kategoriennamen
+     * 
+     * @param categoryName Name der neuen Kategorie
+     * @return gibt einen HTTP Status 200 zurück
+     */
     @RequestMapping(value = "/Category", method = RequestMethod.POST)
     public HttpStatus postCategory(@PathVariable String categoryName) {
 
         Category category = new Category(categoryName);
 
-        dbC.postCategory(); // schauen wie wir aus der DB auslesen können
+        dbCategory.postCategory(); // schauen wie wir aus der DB auslesen können
         return HttpStatus.OK;
     }
 
     @RequestMapping(value = "/Category/{categoryID}", method = RequestMethod.GET)
     public ResponseEntity<Category> getCategory(@PathVariable Integer categoryID) {
 
-        Category category = dbC.findOne(categoryID); // schauen wie wir aus der DB auslesen können
+        Category category = dbCategory.findOne(categoryID); // schauen wie wir aus der DB auslesen können
         return new ResponseEntity<>(category, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/Category/{categoryID}", method = RequestMethod.DELETE)
-    public HttpStatus postCategory() {
+    public HttpStatus postCategory(@PathVariable Integer categoryID) {
 
-        dbC.deleteOne(); // schauen wie wir aus der DB löschen können
+        dbCategory.deleteOne(categoryID); // schauen wie wir aus der DB löschen können
         return HttpStatus.OK;
     }
 }
