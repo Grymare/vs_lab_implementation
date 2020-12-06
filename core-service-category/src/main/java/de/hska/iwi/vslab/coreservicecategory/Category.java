@@ -1,18 +1,19 @@
 package de.hska.iwi.vslab.coreservicecategory;
 
-public class Category implements java.io.Serializable {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
+@Entity // This tells Hibernate to make a table out of this class
+public class Category{
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	private String name;
 
-	public Category() {
-	}
-
-	public Category(String name) {
-        //TODO: how do we get a random UNUSED new ID?
-		this.name = name;
-	}
-
+	
 	public int getId() {
 		return this.id;
 	}
@@ -29,4 +30,11 @@ public class Category implements java.io.Serializable {
 		this.name = name;
 	}
 
+	public boolean equals(Category other) {
+		if (this.id == other.id && this.name.equals(other.name)){
+			return true;
+		}else{
+			return false;
+		}
+	}
 }
