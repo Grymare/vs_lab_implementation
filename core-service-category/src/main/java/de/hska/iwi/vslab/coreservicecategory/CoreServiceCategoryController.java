@@ -1,6 +1,8 @@
 package de.hska.iwi.vslab.coreservicecategory;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,10 +31,17 @@ public class CoreServiceCategoryController {
      */
 
     @RequestMapping(value="/Category", method=RequestMethod.GET)
-        public ResponseEntity<Category> getCategories() {
-            categoryRepository.findAll();
-            List<Category> categoryList = categoryRepository.findAll(); //schauen wie wir aus der DB auslesen können
-            return new ResponseEntity<>(categoryList, HttpStatus.OK);
+        public ResponseEntity<List<Category>> getCategories() {
+
+            Iterable<Category> categoryIterable = categoryRepository.findAll(); //schauen wie wir aus der DB auslesen können
+
+            List<Category> categoryList = new ArrayList<Category>();
+
+            for (Category cat : categoryIterable) {
+                categoryList.add(cat);
+            }
+
+            return new ResponseEntity<List<Category>>(categoryList, HttpStatus.OK);
         }
 
     /**
@@ -53,14 +62,20 @@ public class CoreServiceCategoryController {
 
     @RequestMapping(value = "/Category/{categoryID}", method = RequestMethod.GET)
     public ResponseEntity<Category> getCategory(@PathVariable Integer categoryID) {
-        Category category = categoryRepository.findOne(categoryID); // schauen wie wir aus der DB auslesen können
-        return new ResponseEntity<>(category, HttpStatus.OK);
+
+        Optional<Category> categoryOptional = categoryRepository.findById(categoryID);
+        
+        if (categoryOptional.isEmpty()){
+            return new ResponseEntity<Category>(HttpStatus.NOT_FOUND);              
+        }else{
+            return new ResponseEntity<Category>(categoryOptional.get(), HttpStatus.OK); 
+        }       
+        
     }
 
     @RequestMapping(value = "/Category/{categoryID}", method = RequestMethod.DELETE)
     public HttpStatus postCategory(@PathVariable Integer categoryID) {
-
-        categoryRepository.delete(categoryID); // schauen wie wir aus der DB löschen können
+        categoryRepository.deleteById(categoryID);
         return HttpStatus.OK;
     }
 }
