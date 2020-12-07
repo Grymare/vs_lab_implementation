@@ -45,11 +45,10 @@ public class CoreServiceCategoryController {
      * @param categoryName Name der neuen Kategorie
      * @return gibt einen HTTP Status 200 zurück
      */
-    @RequestMapping(value = "/category", method = RequestMethod.POST)
+    @RequestMapping(value = "/category{categoryName}", method = RequestMethod.POST)
     public HttpStatus postCategory(@PathVariable String categoryName) {
 
-        Category catego = new Category();
-        catego.setName(categoryName);
+        Category catego = new Category(categoryName);
 
         categoryRepository.save(catego);
         return HttpStatus.OK;

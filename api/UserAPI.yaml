@@ -1,0 +1,71 @@
+swagger: "2.0"
+info:
+  title: UserAPI
+  description: Managing the users for the WebShop
+  version: 1.0.0
+host: www
+schemes:
+  - https
+paths:
+  /user:
+    post:
+      summary: Creates a new user
+      description: Anyone can create a new user with user role
+      parameters:
+        - name: user
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+          description: The user account to create
+      responses:
+        201:
+          description: New user was created successfully
+          schema:
+            $ref: '#/definitions/User'
+        400:
+          description: Bad XML formatting in the reques
+  
+  /user/login:
+    get:
+      summary: Login of a specified user
+      parameters:
+        - name: username
+          in: query
+          type: string
+        - name: password
+          in: query
+          type: string
+      responses:
+        '200':
+          description: User has been loggedin and session information will be returned
+  
+  /user/logout:
+    get:
+      summary: Logout of a specified user
+      parameters:
+        - name: sessionkey
+          in: query
+          type: string
+      responses:
+        '200':
+          description: User has been logged out
+
+definitions:
+  User:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      username:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      password:
+        type: string
+    xml:
+      name: User
+
