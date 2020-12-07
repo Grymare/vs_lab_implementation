@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CoreServiceProductController {
 
     @Autowired
-    private ProductRepository dbProduct;
+    private ProductRepository productRepository;
 
     /**
      * Gibt alle Kategorien zurück die es in der Datenbank gibt
