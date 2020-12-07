@@ -1,7 +1,7 @@
 CREATE TABLE public.category (
-    id int PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     name varchar(255)
 );
-INSERT INTO category (id, name) VALUES (0, 'getraenke');
-INSERT INTO category (id, name) VALUES (1, 'lebensmittel');
-INSERT INTO category (id, name) VALUES (2, 'kleidung');
+INSERT INTO category (name) VALUES ('getraenke');
+INSERT INTO category (name) VALUES ('lebensmittel');
+INSERT INTO category (name) VALUES ('kleidung');

@@ -20,13 +20,7 @@ public class Product {
 	public Product() {
 	}
 
-	public Product(String name, double price, int categoryId) {
-		this.name = name;
-		this.price = price;
-		this.categoryID = categoryId;
-	}
-
-	public Product(String name, double price, int categoryId, String details) {
+	public Product(String name, double price, String details,  int categoryId) {
 		this.name = name;
 		this.price = price;
 		this.categoryID = categoryId;
