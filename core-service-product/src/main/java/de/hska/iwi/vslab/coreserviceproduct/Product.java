@@ -1,30 +1,35 @@
 package de.hska.iwi.vslab.coreserviceproduct;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-    
-    
-public class Product implements java.io.Serializable {
+@Entity // This tells Hibernate to make a table out of this class
+public class Product {
 
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
-	private int categoryID;
 	private String name;
-	private float price;
-	private String description;
+	private double price;
+	private String details;
+	private int categoryID;
 
 	
 	public Product() {
 	}
 
-	public Product(String name, double price, int category) {
+	public Product(String name, double price, int categoryId) {
 		this.name = name;
 		this.price = price;
-		this.category = category;
+		this.categoryID = categoryId;
 	}
 
-	public Product(String name, double price, int category, String details) {
+	public Product(String name, double price, int categoryId, String details) {
 		this.name = name;
 		this.price = price;
-		this.category = category;
+		this.categoryID = categoryId;
 		this.details = details;
 	}
 
@@ -52,12 +57,12 @@ public class Product implements java.io.Serializable {
 		this.price = price;
 	}
 
-	public Category getCategory() {
-		return this.category;
+	public int getCategoryId() {
+		return this.categoryID;
 	}
 
-	public void setCategory(Category category) {
-		this.category = category;
+	public void setCategory(int category) {
+		this.categoryID = category;
 	}
 
 	public String getDetails() {

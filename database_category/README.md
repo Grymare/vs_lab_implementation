@@ -17,3 +17,7 @@ Use database  ``` \c category ```
 SHOW CONTENT ```SELECT * FROM category; ```
 
 INSERT DUMMY DATA ```INSERT INTO category (id, name) VALUES (0, 'getraenke');```
+
+
+## Maven befehle:
+

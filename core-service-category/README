@@ -1,2 +1,0 @@
-## Build database with 
-```docker build -t database_category .```
