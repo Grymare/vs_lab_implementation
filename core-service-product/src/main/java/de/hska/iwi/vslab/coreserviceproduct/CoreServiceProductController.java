@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestBody;
+//import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
@@ -70,9 +70,9 @@ public class CoreServiceProductController {
 
     @RequestMapping(value="/Product/", method=RequestMethod.GET)
         public ResponseEntity<List<Product>> getProductsFiltered(
-            @RequestParam(required=false) String searchtext, 
-            @RequestParam(required=false) double min, 
-            @RequestParam(required=false) double max) {
+            @RequestParam(required=false, defaultValue = "") String searchtext, 
+            @RequestParam(required=false, defaultValue = "0") double min, 
+            @RequestParam(required=false, defaultValue = "-1") double max) {
 
             Iterable<Product> productIterable = productRepository.findAll(); //schauen wie wir aus der DB auslesen können
 
@@ -81,23 +81,21 @@ public class CoreServiceProductController {
             for (Product produc : productIterable) {
                 productList.add(produc);
             }
-            
+                                   
 
-            List<Product> customersWithMoreThan100Points = productList
-                        .stream()
-                        .filter(c -> c.getId() > 100)
-                        .collect(Collectors.toList());
-
-            Stream prod_stream  = productList.stream();
+            Stream<Product> prod_stream  = productList.stream();
             
-            if(min != Null){
+            if( min != 0){
                 prod_stream = prod_stream.filter(c -> c.getPrice() >= min);
             }
-
-            //TODO: Add filter criteria
-            if(productList.size()== 0) {
-                return HttpStatus.NO_CONTENT;//TODO: Test response
+            if(max !=  -1){
+                prod_stream = prod_stream.filter(c -> c.getPrice() <= max);
             }
+            if(searchtext != ""){
+                prod_stream = prod_stream.filter(c -> c.getName().contains(searchtext));
+            }
+            
+            prod_stream.collect(Collectors.toList());
             
             return new ResponseEntity<>(productList, HttpStatus.OK);
         }
@@ -106,7 +104,7 @@ public class CoreServiceProductController {
     @RequestMapping(value = "/Product/{productID}", method = RequestMethod.GET)
     public ResponseEntity<Product> getProduct(@PathVariable Integer productID) {
 
-        Optional<Product> productOptional = productOptional.findById(productID);
+        Optional<Product> productOptional = productRepository.findById(productID);
         
         if (productOptional.isEmpty()){
             return new ResponseEntity<Product>(HttpStatus.NOT_FOUND);              
