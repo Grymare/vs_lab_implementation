@@ -36,8 +36,8 @@ public class CoreServiceProductController {
             Iterable<Product> productIterable = productRepository.findAll(); //schauen wie wir aus der DB auslesen können
 
             JSONArray json_array = new JSONArray();
-            for (Product cat : productIterable) {
-                json_array.put(cat.getJSONObject());
+            for (Product product : productIterable) {
+                json_array.put(product.getJSONObject());
             }
             
             System.out.println(json_array.toString());
@@ -77,8 +77,8 @@ public class CoreServiceProductController {
             @RequestParam(required=false, defaultValue = "0") double min, 
             @RequestParam(required=false, defaultValue = "-1") double max) {
 
-            Iterable<Product> productIterable = productRepository.findAll(); //schauen wie wir aus der DB auslesen können
-
+            Iterable<Product> productIterable = productRepository.findAll(); 
+            
             List<Product> productList = new ArrayList<Product>();
 
             for (Product produc : productIterable) {

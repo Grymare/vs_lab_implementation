@@ -66,15 +66,17 @@ public class CoreServiceCategoryController {
     }
 
     @RequestMapping(value = "/category/{categoryID}", method = RequestMethod.GET)
-    public ResponseEntity<Category> getCategory(@PathVariable Integer categoryID) {
+    public ResponseEntity<Object> getCategory(@PathVariable Integer categoryID) {
 
         Optional<Category> categoryOptional = categoryRepository.findById(categoryID);
         
         if (categoryOptional.isEmpty()){
-            return new ResponseEntity<Category>(HttpStatus.NOT_FOUND);              
+            return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);              
         }else{
-            return new ResponseEntity<Category>(categoryOptional.get(), HttpStatus.OK); 
+            return new ResponseEntity<Object>(categoryOptional.get().getJSONObject().toString(), HttpStatus.OK); 
         }       
+
+
         
     }
 

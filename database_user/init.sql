@@ -8,5 +8,5 @@ CREATE TABLE public.account(
 );
 
 INSERT INTO account (username, firstname, lastname, password, permission) VALUES ('bech','christian','becker','asdf', 0);
-INSERT INTO account (username, firstname, lastname, password, permission) VALUES ('grymoare','hendrik','icet','wasd', 1);
+INSERT INTO account (username, firstname, lastname, password, permission) VALUES ('grymare','hendrik','icet','wasd', 1);
 INSERT INTO account (username, firstname, lastname, password, permission) VALUES ('alphapfote','jana','becker','qwas', 1);

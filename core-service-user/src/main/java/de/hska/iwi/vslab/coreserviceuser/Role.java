@@ -1,4 +1,6 @@
-package de.hska.iwi.vslab.coreserviceuser;
+/** We're using permission instead
+ * 
+ * package de.hska.iwi.vslab.coreserviceuser;
 
 public class Role implements java.io.Serializable {
 
@@ -39,3 +41,4 @@ public class Role implements java.io.Serializable {
 	}
 
 }
+*/
