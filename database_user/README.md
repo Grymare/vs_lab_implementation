@@ -1,12 +1,12 @@
 ## build db container with: 
 
-```docker build -t database_category .```
+```docker build -t database_user .```
 
 PASSWORD IS: postgres
 
 ## Start server with 
 
-``` docker run -p 5666:5432 database_category ```
+``` docker run -p 5666:5432 database_user ```
 
 ## commect to DB with the following command:
 
