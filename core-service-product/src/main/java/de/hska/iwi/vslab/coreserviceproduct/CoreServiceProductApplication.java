@@ -11,13 +11,5 @@ public class CoreServiceProductApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(CoreServiceProductApplication.class, args);
 	}
-
-
-
-
-
-
-
-
 	
 }

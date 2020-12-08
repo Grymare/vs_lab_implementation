@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.json.JSONObject;
+import org.json.JSONArray;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,18 +30,19 @@ public class CoreServiceProductController {
      * Die Rückgabe erfolgt über eine Liste (müssen wir zu XML wandeln)
      */
 
-    @RequestMapping(value="/Product", method=RequestMethod.GET)
-        public ResponseEntity<List<Product>> getProducts() {
+    @RequestMapping(value="/product", method=RequestMethod.GET)
+        public ResponseEntity<Object> getProducts() {
 
             Iterable<Product> productIterable = productRepository.findAll(); //schauen wie wir aus der DB auslesen können
 
-            List<Product> productList = new ArrayList<Product>();
-
-            for (Product produc : productIterable) {
-                productList.add(produc);
+            JSONArray json_array = new JSONArray();
+            for (Product cat : productIterable) {
+                json_array.put(cat.getJSONObject());
             }
-
-            return new ResponseEntity<List<Product>>(productList, HttpStatus.OK);
+            
+            System.out.println(json_array.toString());
+ 
+            return new ResponseEntity<Object>(json_array.toString(), HttpStatus.OK);
 
         }
 
@@ -49,7 +52,7 @@ public class CoreServiceProductController {
      * @param productName Name der neuen Kategorie
      * @return gibt einen HTTP Status 200 zurück
      */
-    @RequestMapping(value = "/Product", method = RequestMethod.POST)
+    @RequestMapping(value = "/product{name, price, details, categoryId}", method = RequestMethod.POST)
     public HttpStatus postProduct(
         @RequestParam(required=false) String name, 
         @RequestParam(required=false) Double price, 
@@ -68,7 +71,7 @@ public class CoreServiceProductController {
      * Die Rückgabe erfolgt über eine Liste (müssen wir zu XML wandeln)
      */
 
-    @RequestMapping(value="/Product/", method=RequestMethod.GET)
+    @RequestMapping(value="/product/", method=RequestMethod.GET)
         public ResponseEntity<List<Product>> getProductsFiltered(
             @RequestParam(required=false, defaultValue = "") String searchtext, 
             @RequestParam(required=false, defaultValue = "0") double min, 
@@ -82,26 +85,36 @@ public class CoreServiceProductController {
                 productList.add(produc);
             }
                                    
-
-            Stream<Product> prod_stream  = productList.stream();
-            
+                        
             if( min != 0){
-                prod_stream = prod_stream.filter(c -> c.getPrice() >= min);
+                System.out.println("MIN");
+                System.out.println(min);
+                productList = productList.stream()
+                .filter(p -> p.getPrice() >= min)
+                .collect(Collectors.toList());
             }
             if(max !=  -1){
-                prod_stream = prod_stream.filter(c -> c.getPrice() <= max);
+                System.out.println("MAX");
+                System.out.println(max);
+                productList = productList.stream()
+                .filter(p -> p.getPrice() <= max)
+                .collect(Collectors.toList());
             }
-            if(searchtext != ""){
-                prod_stream = prod_stream.filter(c -> c.getName().contains(searchtext));
+            if(searchtext.isEmpty() == false){
+                System.out.println("searchtext");
+                System.out.println(searchtext);
+
+                productList = productList.stream()
+                .filter(p -> p.getName().contains(searchtext) || p.getDetails().contains(searchtext) )
+                .collect(Collectors.toList());
+
             }
-            
-            prod_stream.collect(Collectors.toList());
             
             return new ResponseEntity<>(productList, HttpStatus.OK);
         }
 
 
-    @RequestMapping(value = "/Product/{productID}", method = RequestMethod.GET)
+    @RequestMapping(value = "/product/{productID}", method = RequestMethod.GET)
     public ResponseEntity<Product> getProduct(@PathVariable Integer productID) {
 
         Optional<Product> productOptional = productRepository.findById(productID);
@@ -113,7 +126,7 @@ public class CoreServiceProductController {
         }  
     }
 
-    @RequestMapping(value = "/Product/{productID}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/product/{productID}", method = RequestMethod.DELETE)
     public HttpStatus postProduct(@PathVariable Integer productID) {
 
         productRepository.deleteById(productID);

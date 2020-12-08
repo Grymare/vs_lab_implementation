@@ -46,7 +46,7 @@ public class CoreServiceCategoryController {
             }
             
             System.out.println(json_array.toString());
-
+ 
             return new ResponseEntity<Object>(json_array.toString(), HttpStatus.OK);
         }
 
