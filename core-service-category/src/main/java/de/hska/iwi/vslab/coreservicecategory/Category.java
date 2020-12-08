@@ -5,6 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.json.JSONObject;
+
 @Entity // This tells Hibernate to make a table out of this class
 public class Category{
 
@@ -44,4 +46,11 @@ public class Category{
 			return false;
 		}
 	}
+
+	public JSONObject getJSONObject(){
+		JSONObject cat = new JSONObject();
+		cat.put("id", this.id);
+		cat.put("name", this.name);
+		return cat;
+	} 
 }

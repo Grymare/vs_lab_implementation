@@ -3,6 +3,8 @@ package de.hska.iwi.vslab.coreservicecategory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.json.JSONObject;
+import org.json.JSONArray;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,17 +28,26 @@ public class CoreServiceCategoryController {
      */
 
     @RequestMapping(value="/category", method=RequestMethod.GET)
-        public ResponseEntity<List<Category>> getCategories() {
+        public ResponseEntity<Object> getCategories() {
 
-            Iterable<Category> categoryIterable = categoryRepository.findAll(); //schauen wie wir aus der DB auslesen können
-
+            //schauen wie wir aus der DB auslesen können
+            Iterable<Category> categoryIterable = categoryRepository.findAll(); 
+            
+            /*
             List<Category> categoryList = new ArrayList<Category>();
 
             for (Category cat : categoryIterable) {
                 categoryList.add(cat);
-            }
+            }*/
 
-            return new ResponseEntity<List<Category>>(categoryList, HttpStatus.OK);
+            JSONArray json_array = new JSONArray();
+            for (Category cat : categoryIterable) {
+                json_array.put(cat.getJSONObject());
+            }
+            
+            System.out.println(json_array.toString());
+
+            return new ResponseEntity<Object>(json_array.toString(), HttpStatus.OK);
         }
 
     /**
