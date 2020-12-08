@@ -16,13 +16,13 @@ paths:
           in: body
           required: true
           schema:
-            $ref: '#/definitions/User'
+            $ref: '#/definitions/user'
           description: The user account to create
       responses:
         201:
           description: New user was created successfully
           schema:
-            $ref: '#/definitions/User'
+            $ref: '#/definitions/user'
         400:
           description: Bad XML formatting in the reques
   
@@ -52,7 +52,7 @@ paths:
           description: User has been logged out
 
 definitions:
-  User:
+  user:
     type: object
     properties:
       id:
@@ -67,5 +67,5 @@ definitions:
       password:
         type: string
     xml:
-      name: User
+      name: user
 

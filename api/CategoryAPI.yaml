@@ -20,7 +20,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/Category'
+              $ref: '#/definitions/category'
 
     post:
       summary: Add a new category to the database
@@ -55,7 +55,7 @@ paths:
         '200':
           description: successful operation
           schema:
-            $ref: '#/definitions/Category'
+            $ref: '#/definitions/category'
         '404':
           description: specified categry id can't be found
 
@@ -74,7 +74,7 @@ paths:
           description: Category still has related products
 
 definitions:
-  Category:
+  category:
     type: object
     required:
       - name
