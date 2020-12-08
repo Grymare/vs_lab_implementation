@@ -3,9 +3,9 @@ info:
   title: UserAPI
   description: Managing the users for the WebShop
   version: 1.0.0
-host: www
+host: localhost:8773
 schemes:
-  - https
+  - http
 paths:
   /user:
     post:

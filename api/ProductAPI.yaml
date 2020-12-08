@@ -3,11 +3,11 @@ info:
   title: ProductAPI
   description: Managing the products for the WebShop
   version: 1.0.0
-host: www
+host: localhost:8772
 schemes:
-  - https
+  - http
 paths:
-  /Product:
+  /product:
     get:
       summary: Returns all products
       description: Returns all products
@@ -37,7 +37,7 @@ paths:
         '405':
           description: Invalid input
 
-  /Product/:
+  /product/:
     get:
       summary: Returns all products that match the filter criteria
       description: Returns all products that match the filter criteria
@@ -61,7 +61,7 @@ paths:
             items:
               $ref: '#/definitions/Product'
 
-  /Product/{productID}:
+  /product/{productID}:
     get:
       summary: Returns product for specified ID
       description: Returns product for specified ID
@@ -110,7 +110,7 @@ definitions:
     xml:
       name: Category
 
-  Product:
+  product:
     type: object
     required:
       - name
