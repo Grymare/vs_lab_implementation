@@ -1,3 +1,16 @@
+# How to run the current state of the project:
+
+## Build and start eureka, user, product and category DB with:
+
+```docker-compose up --build```
+
+## Run the composite and all three coreservices in their corresponding folder:
+```mvn spring-boot:run``` 
+
+## Request all products with their categories from composite service
+
+curl -X GET "http://localhost:8774/product"
+
 ## Portmapping
 
 - eureka_server: 8761
@@ -11,19 +24,6 @@
 - database_product: 5555
 - database_user: 5666
 
-## First build eureka with maven: 
-
-```mvn package spring-boot:repackage```
-
-## Build the docker container by using the Dockerfile by executing:
-
-```docker build -t eureka_server eureka-server```
-
-## run the server by using docker compose in the main folder
-```docker-compose up``` 
-
-Try to reach the server by [localhost:8761](http://localhost:8761/)
 
 **NOTE:** The expose comand in dockerfile does only opens ports to the container interface. In Order to communicate with the host
 the port must be specified either in the startup docker command or the docker-compose file.
-
