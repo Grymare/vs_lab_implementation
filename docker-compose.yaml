@@ -3,24 +3,24 @@ version: "3.3"
 services:
   eureka_server:
     build: eureka-server/
-    image: eureka_server
+    image: eureka_server:latest
     ports: #mapping the port 
         - "8761:8761"
 
   database_category:
     build: database_category/
-    image: database_category
+    image: database_category:latest
     ports:
       - "5444:5432"
   
   database_product:
     build: database_product/
-    image: database_product
+    image: database_product:latest
     ports:
       - "5555:5432"
 
   database_user:
     build: database_user/
-    image: database_user
+    image: database_user:latest
     ports:
       - "5666:5432"
