@@ -11,7 +11,7 @@ import org.json.JSONObject;
 public class Product {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	private String name;
 	private double price;
@@ -25,8 +25,8 @@ public class Product {
 	public Product(String name, double price, String details,  int categoryId) {
 		this.name = name;
 		this.price = price;
-		this.categoryID = categoryId;
 		this.details = details;
+		this.categoryID = categoryId;
 	}
 
 	public Product(int id, String name, double price, String details,  int categoryId) {
@@ -81,6 +81,7 @@ public class Product {
 		JSONObject prod = new JSONObject();
 
 		prod.put("id", this.id);
+		prod.put("name", this.name);
 		prod.put("price", this.price);
 		prod.put("categoryID", this.categoryID);
 		prod.put("details", this.details);

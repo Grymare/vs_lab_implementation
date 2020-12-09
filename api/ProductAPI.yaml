@@ -24,8 +24,6 @@ paths:
     post:
       summary: Add a new product to the database
       description: Add a new product to the database
-      consumes:
-        - application/xml
       parameters:
         - in: body
           name: body
@@ -117,19 +115,17 @@ definitions:
       - price
       - category
     properties:
-      id:
+      categoryID:
         type: integer
-        format: int
-        example: 12345
-      category:
-        $ref: '#/definitions/category'
+        description: ID for the linked category
+        example: 0
       name:
         type: string
         example: Bleistift
       price:
         type: number
         example: 5.5
-      description:
+      details:
         type: string
         description: Description of the product
         example: This is a product description

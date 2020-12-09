@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -56,17 +57,17 @@ public class CoreServiceCategoryController {
      * @param categoryName Name der neuen Kategorie
      * @return gibt einen HTTP Status 200 zurück
      */
-    @RequestMapping(value = "/category{categoryName}", method = RequestMethod.POST)
-    public HttpStatus postCategory(@PathVariable String categoryName) {
+    @RequestMapping(value = "/category", method = RequestMethod.POST)
+    public HttpStatus postCategory(@RequestParam String categoryName) {
 
-        Category catego = new Category(categoryName);
+        Category category = new Category(categoryName);
 
-        categoryRepository.save(catego);
+        categoryRepository.save(category);
         return HttpStatus.OK;
     }
 
-    @RequestMapping(value = "/category/{categoryID}", method = RequestMethod.GET)
-    public ResponseEntity<Object> getCategory(@PathVariable Integer categoryID) {
+    @RequestMapping(value = "/category/", method = RequestMethod.GET)
+    public ResponseEntity<Object> getCategory(@RequestParam Integer categoryID) {
 
         Optional<Category> categoryOptional = categoryRepository.findById(categoryID);
         
