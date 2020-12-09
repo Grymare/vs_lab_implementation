@@ -3,12 +3,16 @@ package de.hska.iwi.vslab.coreservicecategory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.lang.Thread;
+
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+
 import org.json.JSONObject;
 import org.json.JSONArray;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@Service
 public class CoreServiceCategoryController {
 
     @Autowired
@@ -27,19 +32,18 @@ public class CoreServiceCategoryController {
      * Gibt alle Kategorien zurück die es in der Datenbank gibt
      * Die Rückgabe erfolgt über eine Liste (müssen wir zu XML wandeln)
      */
-
+    @HystrixCommand(fallbackMethod = "getCategories_fallback")
     @RequestMapping(value="/category", method=RequestMethod.GET)
-        public ResponseEntity<Object> getCategories() {
-
-            //schauen wie wir aus der DB auslesen können
-            Iterable<Category> categoryIterable = categoryRepository.findAll(); 
-            
+        public ResponseEntity<String> getCategories() {
             /*
-            List<Category> categoryList = new ArrayList<Category>();
+            try {
+                Thread.sleep(10000); // for test purposes only
+            } catch(InterruptedException e) {
+                System.out.println("got interrupted!");
+            }
+            */
 
-            for (Category cat : categoryIterable) {
-                categoryList.add(cat);
-            }*/
+            Iterable<Category> categoryIterable = categoryRepository.findAll(); 
 
             JSONArray json_array = new JSONArray();
             for (Category cat : categoryIterable) {
@@ -48,8 +52,13 @@ public class CoreServiceCategoryController {
             
             System.out.println(json_array.toString());
  
-            return new ResponseEntity<Object>(json_array.toString(), HttpStatus.OK);
+            return new ResponseEntity<String>(json_array.toString(), HttpStatus.OK);
         }
+
+    @HystrixCommand
+    public HttpStatus getCategories_fallback() {
+        return HttpStatus.I_AM_A_TEAPOT;
+    }
 
     /**
      * Erstellt ein neues Category-Objekt mit dem übermittelten Kategoriennamen

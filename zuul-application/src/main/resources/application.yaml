@@ -11,3 +11,4 @@ zuul:
     ignoredServices: '*'
     routes:
         composite-product-category: /composite/**
+        core-service-category: /category/**

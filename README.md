@@ -11,9 +11,14 @@
 
 curl -X GET "http://localhost:8774/product"
 
+## Connect to the eureka service
+
+http://localhost:8761/
+
 ## Portmapping
 
 - eureka_server: 8761
+- zuul-application: 8791
 
 - core_service_category: 8771 
 - core_service_product: 8772
