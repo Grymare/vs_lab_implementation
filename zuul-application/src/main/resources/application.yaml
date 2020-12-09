@@ -12,6 +12,8 @@ zuul:
     routes:
         core-service-category: 
             path: /core-service-category/**
+        core-service-product: 
+            path: /core-service-product/**
         composite-product-category: 
             path: /composite-product-category/**
 

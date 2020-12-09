@@ -4,7 +4,7 @@
 
 ```docker-compose up --build```
 
-## Run the composite and all three coreservices in their corresponding folder:
+## Run the composite, all three coreservices and the zuul-service in their corresponding folder with:
 ```mvn spring-boot:run``` 
 
 ## Request all products with their categories from composite service
