@@ -75,8 +75,8 @@ public class CoreServiceCategoryController {
         return HttpStatus.OK;
     }
 
-    @RequestMapping(value = "/category/", method = RequestMethod.GET)
-    public ResponseEntity<Object> getCategory(@RequestParam Integer categoryID) {
+    @RequestMapping(value = "/category/{categoryID}", method = RequestMethod.GET)
+    public ResponseEntity<Object> getCategory(@PathVariable Integer categoryID) {
 
         Optional<Category> categoryOptional = categoryRepository.findById(categoryID);
         
