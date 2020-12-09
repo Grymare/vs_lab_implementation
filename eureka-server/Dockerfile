@@ -10,8 +10,4 @@ ENTRYPOINT ["/usr/local/openjdk-15/bin/java"]
 CMD ["-jar", "/opt/spring-cloud/lib/server.jar"] #parameter to entrypoint
 #While a container is immutable, when not committed to an image after application exits, data stored in a volume will be persistent over several containers.
 #VOLUME /var/lib/spring-cloud/config-repo 
-<<<<<<< HEAD
 EXPOSE 8761
-=======
-EXPOSE 8761
->>>>>>> main
