@@ -1,5 +1,5 @@
 CREATE TABLE public.product (
-    id int PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     name varchar(255),
     price double precision,
     details varchar(255),

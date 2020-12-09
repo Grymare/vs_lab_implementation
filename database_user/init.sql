@@ -1,6 +1,6 @@
 CREATE TABLE public.account(
     id SERIAL PRIMARY KEY,
-    username varchar(255),
+    username varchar(255) UNIQUE,
     firstname varchar(255),
     lastname varchar(255),
     password varchar(255),
