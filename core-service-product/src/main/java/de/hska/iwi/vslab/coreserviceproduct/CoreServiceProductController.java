@@ -72,7 +72,7 @@ public class CoreServiceProductController {
      */
 
     @RequestMapping(value="/product/", method=RequestMethod.GET)
-        public ResponseEntity<List<Product>> getProductsFiltered(
+        public ResponseEntity<String> getProductsFiltered(
             @RequestParam(required=false, defaultValue = "") String searchtext, 
             @RequestParam(required=false, defaultValue = "0") double min, 
             @RequestParam(required=false, defaultValue = "-1") double max) {
@@ -84,8 +84,7 @@ public class CoreServiceProductController {
             for (Product produc : productIterable) {
                 productList.add(produc);
             }
-                                   
-                        
+                                       
             if( min != 0){
                 System.out.println("MIN");
                 System.out.println(min);
@@ -109,8 +108,12 @@ public class CoreServiceProductController {
                 .collect(Collectors.toList());
 
             }
-            
-            return new ResponseEntity<>(productList, HttpStatus.OK);
+
+            JSONArray j_prod = new JSONArray();
+            for (Product prod : productList) {
+                j_prod.put(prod.getJSONObject());
+            }
+            return new ResponseEntity<String>(j_prod.toString(), HttpStatus.OK);
         }
 
 
