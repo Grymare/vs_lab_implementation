@@ -23,26 +23,22 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 public class CompositeServiceProductCategoryController {
 
+    String url_category = "http://localhost:8771";
+    String url_product = "http://localhost:8772";
+
+
     /**
      * Gibt alle Kategorien zurück die es in der Datenbank gibt
      * Die Rückgabe erfolgt über eine Liste (müssen wir zu XML wandeln)
      */
-
-    String url_category = "http://localhost:8771";
-
-    String url_product = "http://localhost:8772";
-
     @RequestMapping(value="/product", method=RequestMethod.GET)
-        public ResponseEntity<Object> getProducts() {
+        public ResponseEntity<String> getProducts() {
 
             RestTemplate restTemplate = new RestTemplate();
             
-
             ResponseEntity<String> productResponse = restTemplate.getForEntity(url_product + "/product", String.class);
-
             ResponseEntity<String> categoryResponse = restTemplate.getForEntity(url_category + "/category", String.class);
             
-
             JSONArray j_product_array = new JSONArray(productResponse.getBody().toString());
             JSONArray j_category_array = new JSONArray(categoryResponse.getBody().toString());
 
@@ -81,26 +77,68 @@ public class CompositeServiceProductCategoryController {
             System.out.println("==================================");
             System.out.println(j_product_array.toString());
  
-            return new ResponseEntity<Object>(j_product_array.toString(), HttpStatus.OK);
-
+            return new ResponseEntity<String>(j_product_array.toString(), HttpStatus.OK);
         }
-     
+    
+
+    /**
+     * Gibt das Produkt der gesuchten productID zurück
+     * Die Rückgabe erfolgt über eine Liste (müssen wir zu XML wandeln)
+     */ 
+    @RequestMapping(value = "/product/{productID}", method = RequestMethod.GET)
+        public ResponseEntity<String> getProduct(@PathVariable Integer productID) {
+
+            RestTemplate restTemplate = new RestTemplate();
+
+            ResponseEntity<String> productResponse = restTemplate.getForEntity(url_product + "/product/" + productID, String.class);
+            JSONObject j_product = new JSONObject(productResponse.getBody().toString());
+            if (j_product.isEmpty()) {
+                return new ResponseEntity<String>(HttpStatus.NOT_FOUND);  
+            }
+
+            int categoryID = Integer.valueOf(j_product.get("categoryID").toString());
+            ResponseEntity<String> categoryResponse = restTemplate.getForEntity(url_category + "/category/" + categoryID, String.class);
+            JSONObject j_category = new JSONObject(categoryResponse.getBody().toString());
+            if (j_category.isEmpty()) {
+                return new ResponseEntity<String>(HttpStatus.NOT_FOUND);  
+            }
+
+            String catName = (String) j_category.get("name");
+            j_product.put("categoryName", catName);
+
+            return new ResponseEntity<String>(j_product.toString(), HttpStatus.OK);
+        }    
+
+
+    /**
+     * Löscht eine Kategorie und die dazugehörigen Produkte. 
+     */ 
+    @RequestMapping(value = "/category/{categoryID}", method = RequestMethod.DELETE)
+        public HttpStatus deleteCategory(@PathVariable Integer categoryID) {
+
+            RestTemplate restTemplate = new RestTemplate();
+            ResponseEntity<String> productResponse = restTemplate.getForEntity(url_product + "/product", String.class);
+            JSONArray j_product_array = new JSONArray(productResponse.getBody().toString());
+
+            for (int i = 0; i < j_product_array.length(); i++) {
+                JSONObject j_product =  j_product_array.getJSONObject(i);
+                int catID = Integer.valueOf(j_product.get("categoryID").toString());
+
+                // Delete product
+                if (catID == categoryID) {
+                    int prodID = Integer.valueOf(j_product.get("id").toString());
+                    restTemplate.delete(url_product + "/product/" + prodID);
+                }
+            }
+
+            // Delete category
+            restTemplate.delete(url_category + "/category/" + categoryID);
+
+            return HttpStatus.OK;
+        }
+         
      /**
       * 
-    @RequestMapping(value = "/product{name, price, details, categoryId}", method = RequestMethod.POST)
-    public HttpStatus postProduct(
-        @RequestParam(required=false) String name, 
-        @RequestParam(required=false) Double price, 
-        @RequestParam(required=false) String details,
-        @RequestParam(required=false) int categoryId) {
-
-        Product prod = new Product(name, price, details, categoryId);
-
-        productRepository.save(prod);
-        return HttpStatus.OK;
-
-    }
-
     @RequestMapping(value="/product/", method=RequestMethod.GET)
         public ResponseEntity<List<Product>> getProductsFiltered(
             @RequestParam(required=false, defaultValue = "") String searchtext, 
@@ -142,25 +180,5 @@ public class CompositeServiceProductCategoryController {
             
             return new ResponseEntity<>(productList, HttpStatus.OK);
         }
-    
-    
-
-    @RequestMapping(value = "/product/{productID}", method = RequestMethod.GET)
-    public ResponseEntity<Product> getProduct(@PathVariable Integer productID) {
-
-        
-        if (productOptional.isEmpty()){
-            return new ResponseEntity<Product>(HttpStatus.NOT_FOUND);              
-        }else{
-            return new ResponseEntity<Product>(productOptional.get(), HttpStatus.OK); 
-        }  
-    }
-
-    @RequestMapping(value = "/category/{categoryID}", method = RequestMethod.DELETE)
-    public HttpStatus deleteCategory(@PathVariable Integer categoryID) {
-        //TODO Implement
-        return HttpStatus.OK;
-    }
     */
-
 }
