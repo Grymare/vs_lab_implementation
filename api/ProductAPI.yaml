@@ -25,12 +25,27 @@ paths:
       summary: Add a new product to the database
       description: Add a new product to the database
       parameters:
-        - in: body
-          name: body
-          description: Product object that needs to be added to the store
+        - name: name
+          in: query
+          type: string
           required: true
-          schema:
-            $ref: '#/definitions/product'
+        - name: price
+          in: query
+          type: number
+          required: true
+        - name: details
+          in: query
+          type: string
+        - name: categoryId
+          in: query
+          type: integer
+          required: true
+        #- in: body
+        #  name: body
+        #  description: Product object that needs to be added to the store
+        #  required: true
+        #  schema:
+        #    $ref: '#/definitions/product'
       responses:
         '405':
           description: Invalid input
@@ -115,7 +130,7 @@ definitions:
       - price
       - category
     properties:
-      categoryID:
+      categoryId:
         type: integer
         description: ID for the linked category
         example: 0

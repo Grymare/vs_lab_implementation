@@ -10,5 +10,10 @@ eureka:
 zuul:
     ignoredServices: '*'
     routes:
-        composite-product-category: /composite/**
-        core-service-category: /category/**
+        core-service-category: 
+            path: /core-service-category/**
+        composite-service-product-category: 
+            path: /composite-service-product-category/**
+
+
+
