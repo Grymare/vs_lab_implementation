@@ -18,6 +18,8 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import org.springframework.stereotype.Component;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,6 +39,8 @@ public class CompositeServiceProductCategoryController {
     private JSONArray j_category_cache = new JSONArray();
     JSONArray j_prod_cat_array = new JSONArray();
 
+    @Autowired
+    private LoadBalancerClient loadBalancer;
 
     /**
      * Gibt alle Kategorien zurück die es in der Datenbank gibt Die Rückgabe erfolgt
@@ -46,6 +50,11 @@ public class CompositeServiceProductCategoryController {
     @HystrixCommand(fallbackMethod = "getProducts_fallback", commandProperties = {
         @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "2") })
     public ResponseEntity<String> getProducts() {
+
+        // Load Balancer
+        ServiceInstance serviceInstance=loadBalancer.choose("core-service-product");
+        System.out.println(serviceInstance.getUri());
+        url_product=serviceInstance.getUri().toString();
 
         RestTemplate restTemplate = new RestTemplate();
 
