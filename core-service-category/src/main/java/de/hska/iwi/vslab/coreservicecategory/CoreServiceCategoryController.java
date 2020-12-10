@@ -7,7 +7,6 @@ import com.google.common.collect.Lists;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 
-
 import org.json.JSONObject;
 import org.json.JSONArray;
 
