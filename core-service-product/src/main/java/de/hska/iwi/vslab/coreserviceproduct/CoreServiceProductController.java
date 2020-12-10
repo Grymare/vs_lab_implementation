@@ -118,6 +118,8 @@ public class CoreServiceProductController {
             productList.add(produc);
         }
 
+        System.out.println("SEARCHCRITERIA");
+
         if (min != 0) {
             System.out.println("MIN");
             System.out.println(min);
@@ -143,6 +145,8 @@ public class CoreServiceProductController {
             json_array.put(cat.getJSONObject());
         }
 
+        System.out.println(json_array.toString());
+
         return new ResponseEntity<String>(json_array.toString(), HttpStatus.OK);
     }
 
@@ -153,7 +157,8 @@ public class CoreServiceProductController {
             @RequestParam(required = false, defaultValue = "-1") double max) {
 
         List<Product> productList = product_cache;
-
+        
+        
         if (min != 0) {
             System.out.println("MIN");
             System.out.println(min);

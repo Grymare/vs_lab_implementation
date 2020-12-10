@@ -1,7 +1,9 @@
 package de.hska.iwi.vslab.compositeserviceproductcategory;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -136,49 +138,61 @@ public class CompositeServiceProductCategoryController {
 
             return HttpStatus.OK;
         }
-         
-     /**
-      * 
-    @RequestMapping(value="/product/", method=RequestMethod.GET)
-        public ResponseEntity<List<Product>> getProductsFiltered(
-            @RequestParam(required=false, defaultValue = "") String searchtext, 
-            @RequestParam(required=false, defaultValue = "0") double min, 
-            @RequestParam(required=false, defaultValue = "-1") double max) {
+        
+        @RequestMapping(value = "/product/", method = RequestMethod.GET)
+        //Searches for product with specified search criteria
+        public ResponseEntity<String> getProductsFiltered_fallback(
+            @RequestParam(required = false, defaultValue = "") String searchtext,
+            @RequestParam(required = false, defaultValue = "0") double min,
+            @RequestParam(required = false, defaultValue = "-1") double max) {
 
-            Iterable<Product> productIterable = productRepository.findAll(); 
+            RestTemplate restTemplate = new RestTemplate();
+
+            String uri_param = "?searchtext="+searchtext+
+            "&min="+Double.toString(min)+
+            "&max="+Double.toString(max);
+
+            ResponseEntity<String> productResponse = restTemplate.getForEntity(url_product + "/product/"+uri_param, String.class);
+            ResponseEntity<String> categoryResponse = restTemplate.getForEntity(url_category +"/category", String.class);
             
-            List<Product> productList = new ArrayList<Product>();
+            JSONArray j_product_array = new JSONArray(productResponse.getBody().toString());
+            JSONArray j_category_array = new JSONArray(categoryResponse.getBody().toString());
+            
+            System.out.println(j_product_array);
+            System.out.println(j_category_array);
 
-            for (Product produc : productIterable) {
-                productList.add(produc);
-            }
-                                   
-                        
-            if( min != 0){
-                System.out.println("MIN");
-                System.out.println(min);
-                productList = productList.stream()
-                .filter(p -> p.getPrice() >= min)
-                .collect(Collectors.toList());
-            }
-            if(max !=  -1){
-                System.out.println("MAX");
-                System.out.println(max);
-                productList = productList.stream()
-                .filter(p -> p.getPrice() <= max)
-                .collect(Collectors.toList());
-            }
-            if(searchtext.isEmpty() == false){
-                System.out.println("searchtext");
-                System.out.println(searchtext);
+            ArrayList<Category> category_list = new ArrayList<>();
 
-                productList = productList.stream()
-                .filter(p -> p.getName().contains(searchtext) || p.getDetails().contains(searchtext) )
-                .collect(Collectors.toList());
+            //filter for categories which are present in the filtered products
+            for (int i = 0; i < j_category_array.length(); i++) {
+                JSONObject j_cat =  j_category_array.getJSONObject(i);
 
+                Category cat = new Category(
+                    Integer.valueOf(j_cat.get("id").toString()),
+                    (String) j_cat.get("name")
+                );
+                category_list.add(cat);
             }
             
-            return new ResponseEntity<>(productList, HttpStatus.OK);
-        }
-    */
+            for (int i = 0; i < j_product_array.length(); i++) {
+                JSONObject j_prod =  j_product_array.getJSONObject(i);
+                int catID = Integer.valueOf(j_prod.get("categoryID").toString());
+                String catName = "";
+                
+                //find category name to corresponding category id
+                for (Category cat : category_list) {
+                    if (cat.getId() == catID) {
+                        catName = cat.getName();
+                        break;
+                    }
+                }
+
+                j_prod.put("categoryName", catName);
+            }
+            System.out.println("==================================");
+            System.out.println(j_product_array.toString());
+ 
+            return new ResponseEntity<String>(j_product_array.toString(), HttpStatus.OK);
+    }
+    
 }
