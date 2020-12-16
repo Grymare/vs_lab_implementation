@@ -11,11 +11,16 @@ zuul:
     ignoredServices: '*'
     routes:
         core-service-category: 
-            path: /core-service-category/**
+            path: /category-service/**
+            serviceId: core-service-category
+            stripPrefix: false
         core-service-product: 
-            path: /core-service-product/**
+            path: /product-service/**
+            serviceId: core-service-product
+            stripPrefix: false
         composite-product-category: 
-            path: /composite-product-category/**
-
+            path: /composite/**
+            serviceId: composite-product-category
+            stripPrefix: false
 
 
