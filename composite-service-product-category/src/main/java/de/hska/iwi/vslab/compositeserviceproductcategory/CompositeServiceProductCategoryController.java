@@ -32,15 +32,24 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class CompositeServiceProductCategoryController {
 
-    String url_category = "http://localhost:8771";
-    String url_product = "http://localhost:8772";
-
-    private JSONArray j_product_cache = new JSONArray();
-    private JSONArray j_category_cache = new JSONArray();
+    //private JSONArray j_product_cache = new JSONArray();
+    //private JSONArray j_category_cache = new JSONArray();
     JSONArray j_prod_cat_array = new JSONArray();
 
     @Autowired
     private LoadBalancerClient loadBalancer;
+
+    private String get_product_url(){
+        ServiceInstance serviceInstance=loadBalancer.choose("core-service-product");
+        System.out.println(serviceInstance.getUri());
+        return serviceInstance.getUri().toString();
+    }
+
+    private String get_category_url(){
+        ServiceInstance serviceInstance=loadBalancer.choose("core-service-category");
+        System.out.println(serviceInstance.getUri());
+        return serviceInstance.getUri().toString();
+    }
 
     /**
      * Gibt alle Kategorien zurück die es in der Datenbank gibt Die Rückgabe erfolgt
@@ -52,9 +61,8 @@ public class CompositeServiceProductCategoryController {
     public ResponseEntity<String> getProducts() {
 
         // Load Balancer
-        ServiceInstance serviceInstance=loadBalancer.choose("core-service-product");
-        System.out.println(serviceInstance.getUri());
-        url_product=serviceInstance.getUri().toString();
+        String url_product = get_product_url();
+        String url_category = get_category_url();
 
         RestTemplate restTemplate = new RestTemplate();
 
@@ -64,13 +72,8 @@ public class CompositeServiceProductCategoryController {
         JSONArray j_product_array = new JSONArray(productResponse.getBody().toString());
         JSONArray j_category_array = new JSONArray(categoryResponse.getBody().toString());
 
-        j_product_cache = j_product_array;
-        j_category_cache = j_category_array;
-
-        System.out.println(j_product_array.toString());
-        System.out.println("==================================");
-        System.out.println(j_category_array.toString());
-        System.out.println("==================================");
+        //j_product_cache = j_product_array;
+        //j_category_cache = j_category_array;
 
         ArrayList<Category> category_list = new ArrayList<>();
 
@@ -127,6 +130,9 @@ public class CompositeServiceProductCategoryController {
 
         RestTemplate restTemplate = new RestTemplate();
 
+        String url_product = get_product_url();
+        String url_category = get_category_url();
+
         ResponseEntity<String> productResponse = restTemplate.getForEntity(url_product + "/product/" + productID,
                 String.class);
         JSONObject j_product = new JSONObject(productResponse.getBody().toString());
@@ -151,7 +157,7 @@ public class CompositeServiceProductCategoryController {
 
     @HystrixCommand
     public ResponseEntity<String> getProduct_fallback(@PathVariable Integer productID) {
-
+        System.out.println("getProduct_fallback");
         if (j_prod_cat_array.isEmpty()){
             return new ResponseEntity<String>(HttpStatus.I_AM_A_TEAPOT);
         }
@@ -176,6 +182,9 @@ public class CompositeServiceProductCategoryController {
     @RequestMapping(value = "/category/{categoryID}", method = RequestMethod.DELETE)
     public HttpStatus deleteCategory(@PathVariable Integer categoryID) {
 
+        String url_product = get_product_url();
+        String url_category = get_category_url();
+
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> productResponse = restTemplate.getForEntity(url_product + "/product", String.class);
         JSONArray j_product_array = new JSONArray(productResponse.getBody().toString());
@@ -199,6 +208,7 @@ public class CompositeServiceProductCategoryController {
 
     @HystrixCommand
     public HttpStatus deleteCategory_fallback(@PathVariable Integer categoryID) {
+        System.out.println("deleteCategory_fallback");
         return HttpStatus.I_AM_A_TEAPOT;
     }
 
@@ -211,6 +221,9 @@ public class CompositeServiceProductCategoryController {
             @RequestParam(required = false, defaultValue = "") String searchtext,
             @RequestParam(required = false, defaultValue = "0") double min,
             @RequestParam(required = false, defaultValue = "-1") double max) {
+        
+        String url_product = get_product_url();
+        String url_category = get_category_url();
 
         RestTemplate restTemplate = new RestTemplate();
 
@@ -264,6 +277,7 @@ public class CompositeServiceProductCategoryController {
             @RequestParam(required = false, defaultValue = "") String searchtext,
             @RequestParam(required = false, defaultValue = "0") double min,
             @RequestParam(required = false, defaultValue = "-1") double max) {
+        System.out.println("getProductsFiltered_fallback");
 
         return new ResponseEntity<String>(HttpStatus.I_AM_A_TEAPOT);
     }

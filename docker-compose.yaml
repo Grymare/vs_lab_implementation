@@ -1,26 +1,116 @@
-version: "3.3"
+version: '3.2'
 
 services:
   eureka_server:
     build: eureka-server/
+    container_name: eurekaserver
     image: eureka_server:latest
     ports: #mapping the port 
         - "8761:8761"
+    networks:
+      - vs_network
 
   database_category:
     build: database_category/
+    container_name: databasecategory
     image: database_category:latest
-    ports:
-      - "5444:5432"
+    environment:
+      - PGPORT=5444
+    expose:
+      - "5444"
+    networks:
+      - vs_network
   
   database_product:
     build: database_product/
+    container_name: databaseproduct
     image: database_product:latest
-    ports:
-      - "5555:5432"
+    environment:
+      - PGPORT=5555
+    expose:
+      - "5555"
+    networks:
+      - vs_network
 
   database_user:
     build: database_user/
+    container_name: databaseuser
     image: database_user:latest
+    environment:
+      - PGPORT=5666
+    expose:
+      - "5666"
+    networks:
+      - vs_network
+
+  core-service-category:
+    build: core-service-category/
+    image: core-service-category
+    container_name: coreservicecategory 
+    restart: always
+    environment:
+      - eureka.client.serviceUrl.defaultZone=http://eurekaserver:8761/eureka/
+      - spring.datasource.url=jdbc:postgresql://databasecategory:5444/category
+    depends_on:
+    - eureka_server
+    - database_category
     ports:
-      - "5666:5432"
+      - "8771:8771"
+    networks:
+      - vs_network
+
+  core-service-product:
+    build: core-service-product/
+    image: core-service-product
+    container_name: coreserviceproduct 
+    restart: always
+    environment:
+      - eureka.client.serviceUrl.defaultZone=http://eurekaserver:8761/eureka/
+      - spring.datasource.url=jdbc:postgresql://databaseproduct:5555/product
+    depends_on:
+    - eureka_server
+    - database_product
+    ports:
+      - "8772:8772"
+    networks:
+      - vs_network
+
+  core-service-user:
+    build: core-service-user/
+    image: core-service-user
+    container_name: coreserviceuser
+    restart: always
+    environment:
+      - eureka.client.serviceUrl.defaultZone=http://eurekaserver:8761/eureka/
+      - spring.datasource.url=jdbc:postgresql://databaseuser:5666/account
+    depends_on:
+    - eureka_server
+    - database_product
+    ports:
+      - "8773:8773"
+    networks:
+      - vs_network
+
+  composite-service-product-category:
+    build: composite-service-product-category/
+    image: composite-service-product-category
+    container_name: compositeserviceproductcategory
+    restart: always
+    environment:
+      - eureka.client.serviceUrl.defaultZone=http://eurekaserver:8761/eureka/
+    depends_on:
+    - eureka_server
+    - database_product
+    - core-service-category
+    - core-service-product
+    ports:
+      - "8774:8774"
+    networks:
+      - vs_network
+      
+networks:
+  vs_network:
+    driver: bridge
+
+
+

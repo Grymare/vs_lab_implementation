@@ -7,6 +7,9 @@
 ## Run the composite, all three coreservices and the zuul-service in their corresponding folder with:
 ```mvn spring-boot:run``` 
 
+## Build the executable jar files for docker containers with:
+```mvn clean package -DskipTests```
+
 ## Request all products with their categories from composite service
 
 curl -X GET "http://localhost:8774/product"
