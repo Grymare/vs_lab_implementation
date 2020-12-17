@@ -8,7 +8,8 @@ services:
     ports: #mapping the port 
         - "8761:8761"
     networks:
-      - vs_network
+      vs_network:
+        ipv4_address: 172.18.0.100
 
   database_category:
     build: database_category/
@@ -47,7 +48,6 @@ services:
     build: core-service-category/
     image: core-service-category
     container_name: coreservicecategory 
-    restart: always
     environment:
       - eureka.client.serviceUrl.defaultZone=http://eurekaserver:8761/eureka/
       - spring.datasource.url=jdbc:postgresql://databasecategory:5444/category
@@ -63,7 +63,6 @@ services:
     build: core-service-product/
     image: core-service-product
     container_name: coreserviceproduct 
-    restart: always
     environment:
       - eureka.client.serviceUrl.defaultZone=http://eurekaserver:8761/eureka/
       - spring.datasource.url=jdbc:postgresql://databaseproduct:5555/product
@@ -79,7 +78,6 @@ services:
     build: core-service-user/
     image: core-service-user
     container_name: coreserviceuser
-    restart: always
     environment:
       - eureka.client.serviceUrl.defaultZone=http://eurekaserver:8761/eureka/
       - spring.datasource.url=jdbc:postgresql://databaseuser:5666/account
@@ -95,7 +93,6 @@ services:
     build: composite-service-product-category/
     image: composite-service-product-category
     container_name: compositeserviceproductcategory
-    restart: always
     environment:
       - eureka.client.serviceUrl.defaultZone=http://eurekaserver:8761/eureka/
     depends_on:
@@ -105,6 +102,24 @@ services:
     - core-service-product
     ports:
       - "8774:8774"
+    networks:
+      - vs_network
+
+  zuul-application:
+    build: zuul-application/
+    image: zuul-application
+    container_name: zuulapplication
+    restart: always
+    environment:
+      - eureka.client.serviceUrl.defaultZone=http://eurekaserver:8761/eureka/
+    depends_on:
+    - eureka_server
+    - core-service-category
+    - core-service-product
+    - core-service-user
+    - composite-service-product-category
+    ports:
+      - "8791:8791"
     networks:
       - vs_network
       

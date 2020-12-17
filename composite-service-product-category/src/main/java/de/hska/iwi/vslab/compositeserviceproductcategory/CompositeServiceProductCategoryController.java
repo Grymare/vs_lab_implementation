@@ -40,6 +40,7 @@ public class CompositeServiceProductCategoryController {
     private LoadBalancerClient loadBalancer;
 
     private String get_product_url(){
+        //obsolet der service name kann auch direkt angesprochen werden 
         ServiceInstance serviceInstance=loadBalancer.choose("core-service-product");
         System.out.println(serviceInstance.getUri());
         return serviceInstance.getUri().toString();
@@ -108,7 +109,7 @@ public class CompositeServiceProductCategoryController {
         return new ResponseEntity<String>(j_product_array.toString(), HttpStatus.OK);
     }
 
-    @HystrixCommand
+    @HystrixCommand // HystrixCommand kann entfernt werden
     public ResponseEntity<String> getProducts_fallback() {
         System.out.println("getProducts_fallback");
 
@@ -188,7 +189,11 @@ public class CompositeServiceProductCategoryController {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> productResponse = restTemplate.getForEntity(url_product + "/product", String.class);
         JSONArray j_product_array = new JSONArray(productResponse.getBody().toString());
+        
 
+        //Alternativ kann auch nur geprüft werden, ob es noch produkte zu der kategorie gibt
+        //Falls ja wird diese nicht gelöscht
+        //der client selbst muss diese produkte dann zuerst entfernen
         for (int i = 0; i < j_product_array.length(); i++) {
             JSONObject j_product = j_product_array.getJSONObject(i);
             int catID = Integer.valueOf(j_product.get("categoryID").toString());

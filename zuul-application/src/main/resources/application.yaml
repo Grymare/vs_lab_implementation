@@ -13,14 +13,14 @@ zuul:
         core-service-category: 
             path: /category-service/**
             serviceId: core-service-category
-            stripPrefix: false
         core-service-product: 
             path: /product-service/**
             serviceId: core-service-product
-            stripPrefix: false
+        core-service-user: 
+            path: /user-service/**
+            serviceId: user-service-user
         composite-product-category: 
             path: /composite/**
             serviceId: composite-product-category
-            stripPrefix: false
 
 
