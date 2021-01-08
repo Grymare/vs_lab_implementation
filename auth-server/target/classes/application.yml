@@ -1,0 +1,10 @@
+server:
+  port: 8090
+  servlet:    context-path: /auth
+
+logging:
+  level:
+    root: WARN
+    org.springframework.web: INFO
+    org.springframework.security: DEBUG
+    org.springframework.security.oauth2: DEBUG

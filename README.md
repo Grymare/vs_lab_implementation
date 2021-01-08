@@ -4,6 +4,9 @@
 
 ```docker-compose up --build```
 
+## To delete all containers
+``` docker rm $(docker ps -aq) ```
+
 ## Run the composite, all three coreservices and the zuul-service in their corresponding folder with:
 ```mvn spring-boot:run``` 
 

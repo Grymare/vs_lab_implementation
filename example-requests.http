@@ -1,0 +1,12 @@
+GET http://172.18.0.71:8771/category
+
+###
+
+POST http://172.18.0.71:8771/category 
+content-type: application/json
+
+{
+    "name": "sample",
+    "time": "Wed, 21 Oct 2015 18:27:50 GMT"
+}
+

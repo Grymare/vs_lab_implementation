@@ -1,0 +1,18 @@
+server:
+  port: 8092
+  servlet:
+    context-path: /resource
+
+logging:
+  level:
+    root: WARN
+    org.springframework.web: INFO
+    org.springframework.security: DEBUG
+    org.springframework.security.oauth2: DEBUG
+
+security:
+  oauth2:
+    resource:
+      filter-order: 3
+      jwk:
+        key-set-uri: http://localhost:8090/auth/oauth2/keys

@@ -21,6 +21,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+//added for oauth
+
+import org.springframework.context.annotation.Role;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.jwt.Jwt;
+
+
 @RestController
 @Component
 public class CoreServiceCategoryController {

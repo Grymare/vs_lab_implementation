@@ -9,7 +9,17 @@ services:
         - "8761:8761"
     networks:
       vs_network:
-        ipv4_address: 172.18.0.100
+        ipv4_address: 172.18.0.61
+
+  auth_server:
+    build: auth-server/
+    container_name: authserver
+    image: auth_server:latest
+    ports: #mapping the port 
+        - "8090:8090"
+    networks:
+      vs_network:
+        ipv4_address: 172.18.0.90
 
   database_category:
     build: database_category/
@@ -20,7 +30,8 @@ services:
     expose:
       - "5444"
     networks:
-      - vs_network
+      vs_network:
+        ipv4_address: 172.18.0.44
   
   database_product:
     build: database_product/
@@ -31,7 +42,8 @@ services:
     expose:
       - "5555"
     networks:
-      - vs_network
+      vs_network:
+        ipv4_address: 172.18.0.55
 
   database_user:
     build: database_user/
@@ -42,7 +54,8 @@ services:
     expose:
       - "5666"
     networks:
-      - vs_network
+      vs_network:
+        ipv4_address: 172.18.0.66
 
   core-service-category:
     build: core-service-category/
@@ -57,7 +70,8 @@ services:
     ports:
       - "8771:8771"
     networks:
-      - vs_network
+      vs_network:
+        ipv4_address: 172.18.0.71
 
   core-service-product:
     build: core-service-product/
@@ -72,7 +86,8 @@ services:
     ports:
       - "8772:8772"
     networks:
-      - vs_network
+      vs_network:
+        ipv4_address: 172.18.0.72
 
   core-service-user:
     build: core-service-user/
@@ -87,7 +102,8 @@ services:
     ports:
       - "8773:8773"
     networks:
-      - vs_network
+      vs_network:
+        ipv4_address: 172.18.0.73
 
   composite-service-product-category:
     build: composite-service-product-category/
@@ -103,7 +119,8 @@ services:
     ports:
       - "8774:8774"
     networks:
-      - vs_network
+      vs_network:
+        ipv4_address: 172.18.0.74
 
   zuul-application:
     build: zuul-application/
@@ -121,7 +138,8 @@ services:
     ports:
       - "8791:8791"
     networks:
-      - vs_network
+      vs_network:
+        ipv4_address: 172.18.0.91
       
 networks:
   vs_network:
