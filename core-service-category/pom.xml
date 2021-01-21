@@ -117,6 +117,7 @@
 			<artifactId>spring-security-oauth2-autoconfigure</artifactId>
 			<version>2.2.1.RELEASE</version>
 		</dependency>
+		<!--
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-jwt</artifactId>
@@ -127,7 +128,7 @@
 			<artifactId>nimbus-jose-jwt</artifactId>
 			<version>8.2.1</version>
 		</dependency>
-
+	-->
 		
 	</dependencies>
 

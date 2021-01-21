@@ -13,7 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.security.oauth.samples.config;
+package org.springframework.security.oauth.samples;
+
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.crypto.codec.Base64;

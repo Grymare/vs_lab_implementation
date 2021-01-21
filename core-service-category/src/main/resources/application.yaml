@@ -1,7 +1,6 @@
 server:
     port: 8771
 
-
 spring:
     application:
         name: core-service-category
@@ -25,9 +24,11 @@ logging:
     org.springframework.security: DEBUG
     org.springframework.security.oauth2: DEBUG
 
+
 security:
   oauth2:
     resource:
+      userInfoUri: http://172.18.0.90:8090/validateUser
       filter-order: 3
-      jwk:
-        key-set-uri: http://172.18.0.90:8090/auth/oauth2/keys
+      #jwk:
+      #  key-set-uri: http://172.18.0.90:8090/auth/oauth2/keys

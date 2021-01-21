@@ -1,6 +1,6 @@
 FROM openjdk:15-slim
 #to create the jar file: mvn package spring-boot:repackage
-COPY target/spring-security-oauth2-auth-server-2.2.1.RELEASE.jar /opt/spring-cloud/lib/server.jar
+COPY target/auth-server-0.0.1-SNAPSHOT.jar /opt/spring-cloud/lib/server.jar
 #COPY files/spring-cloud-config-server-entrypoint.sh /opt/spring-cloud/bin/
 #ENV SPRING_APPLICATION_JSON= \ 
 #  '{"spring": {"cloud": {"config": {"server": \

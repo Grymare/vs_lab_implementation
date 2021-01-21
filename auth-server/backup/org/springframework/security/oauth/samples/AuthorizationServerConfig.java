@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.security.oauth.samples.config;
+package org.springframework.security.oauth.samples;
 
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.jwk.JWKSet;
@@ -55,11 +55,20 @@ import java.util.Map;
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
+	
+
 	@Autowired
 	private ClientDetailsService clientDetailsService;
 
 	@Autowired
 	private AuthenticationManager authenticationManager;
+
+	//added
+    @Autowired
+    private TokenStore tokenStore;
+	//added
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {

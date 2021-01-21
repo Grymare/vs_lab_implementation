@@ -17,9 +17,12 @@ services:
     image: auth_server:latest
     ports: #mapping the port 
         - "8090:8090"
+    environment:
+      - eureka.client.serviceUrl.defaultZone=http://eurekaserver:8761/eureka/
     networks:
       vs_network:
         ipv4_address: 172.18.0.90
+  
 
   database_category:
     build: database_category/

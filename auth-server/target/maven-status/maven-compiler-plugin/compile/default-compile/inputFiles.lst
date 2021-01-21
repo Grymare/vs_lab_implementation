@@ -1,5 +1,2 @@
-/home/chris/Documents/private/studium/vs_lab_implementation/auth-server/src/main/java/org/springframework/security/oauth/samples/AuthServerApplication.java
-/home/chris/Documents/private/studium/vs_lab_implementation/auth-server/src/main/java/org/springframework/security/oauth/samples/config/SecurityConfig.java
-/home/chris/Documents/private/studium/vs_lab_implementation/auth-server/src/main/java/org/springframework/security/oauth/samples/config/KeyConfig.java
-/home/chris/Documents/private/studium/vs_lab_implementation/auth-server/src/main/java/org/springframework/security/oauth/samples/config/AuthorizationServerConfig.java
-/home/chris/Documents/private/studium/vs_lab_implementation/auth-server/src/main/java/org/springframework/security/oauth/samples/web/JwkController.java
+/home/chris/Documents/private/studium/vs_lab_implementation/auth-server/src/main/java/org/springframework/security/oauth/samples/AuthServerApp.java
+/home/chris/Documents/private/studium/vs_lab_implementation/auth-server/src/main/java/org/springframework/security/oauth/samples/AuthorizationServer.java

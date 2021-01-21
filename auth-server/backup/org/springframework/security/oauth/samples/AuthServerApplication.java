@@ -17,10 +17,10 @@ package org.springframework.security.oauth.samples;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
-/**
- * @author Joe Grandja
- */
+
+@EnableDiscoveryClient
 @SpringBootApplication
 public class AuthServerApplication {
 

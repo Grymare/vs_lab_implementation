@@ -13,16 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.security.oauth.samples.web;
+package org.springframework.security.oauth.samples;
+
 
 import com.nimbusds.jose.jwk.JWKSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * @author Joe Grandja
- */
 @RestController
 public class JwkController {
 
