@@ -12,10 +12,3 @@ eureka:
         leaseRenewalIntervalInSeconds: 5
         metadataMap:
             instanceId: "${spring.application.name}:${random.value}"
-security:
-  oauth2:
-    resource:
-      filter-order: 3
-logging:
-  level:
-    org.springframework.security: DEBUG
