@@ -1,0 +1,29 @@
+curl -H "Accept: application/json" http://my-client-with-secret:secretPassword@172.18.0.73:8773/oauth/token -d grant_type=client_credentials
+
+###
+
+curl -H "Authorization: Bearer 67fb656d-4ddf-4bd7-ad4d-6230a1c377fa" http://localhost:8080/hello
+
+### 
+
+curl -X POST -H "Authorization: Bearer 1f80a890-27ef-4673-89ac-02ee0a4fecdf" http://localhost:8080/fibonacci
+
+###
+#Test Witout Authorization
+curl -X POST http://localhost:8080/fibonacci
+
+### 
+
+curl -X DELETE -H "Authorization: Bearer 64af2e03-7272-4077-824a-91c180a01527" http://localhost:8080/fibonacci
+
+###
+
+POST http://my-client-with-secret:secret@localhost:8080/oauth/token?grant_type=client_credentials HTTP/1.1
+Accept: application/json
+
+grant_type=client_credentials
+
+###
+
+GET http://localhost:8080/hello HTTP/1.1
+Authorization: Bearer b058b8f7-5459-4d67-be8f-610ada802033

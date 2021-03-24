@@ -125,6 +125,7 @@ services:
       vs_network:
         ipv4_address: 172.18.0.74
 
+  #Edge server der Anfragen an die Service weiterleitet (Gateway?)
   zuul-application:
     build: zuul-application/
     image: zuul-application
