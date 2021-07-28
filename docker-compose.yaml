@@ -57,7 +57,8 @@ services:
     ports:
       - "8771:8771"
     networks:
-      - vs_network
+      vs_network:
+        ipv4_address: 172.18.0.8
 
   core-service-product:
     build: core-service-product/
@@ -72,7 +73,8 @@ services:
     ports:
       - "8772:8772"
     networks:
-      - vs_network
+      vs_network:
+        ipv4_address: 172.18.0.6
 
   core-service-user:
     build: core-service-user/
@@ -87,7 +89,8 @@ services:
     ports:
       - "8773:8773"
     networks:
-      - vs_network
+      vs_network:
+        ipv4_address: 172.18.0.7
 
   composite-service-product-category:
     build: composite-service-product-category/
@@ -122,10 +125,27 @@ services:
       - "8791:8791"
     networks:
       - vs_network
+    
       
+  oauthserver:
+    build: oauthserver/
+    image: oauthserver
+    container_name: oauthserver
+    restart: always
+    environment:
+      - eureka.client.serviceUrl.defaultZone=http://eurekaserver:8761/eureka/
+    depends_on:
+    - eureka_server
+    ports:
+      - "4444:4444"
+    networks:
+      - vs_network
+  
+
+
 networks:
   vs_network:
-    driver: bridge
-
-
-
+    #driver: bridge
+    ipam:
+      config:
+        - subnet: 172.18.0.0/24

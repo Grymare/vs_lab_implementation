@@ -4,6 +4,12 @@
 
 ```docker-compose up --build```
 
+## To delete all containers
+``` docker rm -f $(docker ps -aq) ```
+
+## To delete all IMAGES!!!!
+``` docker rmi $(docker images -aq)```
+
 ## Run the composite, all three coreservices and the zuul-service in their corresponding folder with:
 ```mvn spring-boot:run``` 
 
@@ -18,7 +24,19 @@ curl -X GET "http://localhost:8774/product"
 
 http://localhost:8761/
 
-## Portmapping
+# How to build a service of the project:
+
+## At first switch into the service folder and execute
+```mvn clean package -DskipTests```
+
+## After building the new jar files rebuild the container with
+```docker rmi service_name```
+
+## Now rebuild the service with
+```docker build``` or ```docker-compose build name_of_containter_1 name_of_containter_2 name_of_containter_3```
+
+
+## Portmapping4-Spring-Cloud
 
 - eureka_server: 8761
 - zuul-application: 8791
