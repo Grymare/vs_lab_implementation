@@ -1,0 +1,23 @@
+
+GET http://172.18.0.6:8772/product
+###
+GET http://172.18.0.8:8771/category
+###
+POST http://172.18.0.7:8773/user 
+content-type: application/json
+
+{
+    "username": "sasmple",
+    "firstname": "Wedd, 21 Oct 2015 18:27:50 GMT",
+    "lastname": "Wed, d21 Oct 2015 18:27:50 GMT",
+    "password": "Wed, d21 Oct 2015 18:27:50 GMT",
+    "permission": 1
+}
+###
+POST http://172.17.0.71:8771/category 
+content-type: application/json
+
+{
+    "name": "sample",
+    "time": "Wed, 21 Oct 2015 18:27:50 GMT"
+}
