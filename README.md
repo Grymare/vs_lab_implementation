@@ -38,13 +38,14 @@ http://localhost:8761/
 
 ## Portmapping4-Spring-Cloud
 
-- eureka_server: 8761
-- zuul-application: 8791
+- eureka_server 172.18.0.100:8761
+- zuul-application 172.18.0.10:8791
+- oauth 172.18.0.11:4444
 
-- core_service_category: 8771 
-- core_service_product: 8772
-- core_service_user: 8773
-- composit_service_category_product: 8774
+- core_service_category 172.18.0.8:8771 
+- core_service_product 172.18.0.6:8772
+- core_service_user 172.18.0.7:8773
+- composit_service_category_product 172.18.0.9:8774
 
 - database_category:5444
 - database_product: 5555

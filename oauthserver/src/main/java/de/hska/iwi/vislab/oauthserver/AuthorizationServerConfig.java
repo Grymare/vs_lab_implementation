@@ -40,6 +40,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         clients.inMemory()
         .withClient("coreProductId")
         .authorizedGrantTypes("client_credentials")
+        .authorities("ROLE_USER", "ROLE_ADMIN", "ROLE_ANONYMOUS")
         .scopes("read", "write")
         .autoApprove(true)
         .secret(encoder.encode("coreProductSecret"));
