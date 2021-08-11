@@ -40,10 +40,17 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         clients.inMemory()
         .withClient("coreProductId")
         .authorizedGrantTypes("client_credentials")
-        .authorities("ROLE_USER", "ROLE_ADMIN", "ROLE_ANONYMOUS")
+        .authorities("ROLE_USER", "ROLE_ADMIN")
         .scopes("read", "write")
         .autoApprove(true)
-        .secret(encoder.encode("coreProductSecret"));
+        .secret(encoder.encode("coreProductSecret"))
+        .and()
+        .withClient("coreCategoryId")
+        .authorizedGrantTypes("client_credentials")
+        .authorities("ROLE_USER", "ROLE_ADMIN")
+        .scopes("read", "write")
+        .autoApprove(true)
+        .secret(encoder.encode("coreCategorySecret"));
 
                 /*
                 .withClient("frontendId")
