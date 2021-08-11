@@ -1,42 +1,29 @@
-curl coreProductId:coreProductSecret@172.18.0.11:8300/oauth/token -dgrant_type=client_credentials
+curl coreProductId:coreProductSecret@172.18.0.11:8300/oauth/token -dgrant_type=client_credentials #WORKS !!!
 ###
-
-###
-curl -H "Accept: application/json" http://user:secret@172.18.0.11:8300/oauth/token -d grant_type=client_credentials
+curl -H "Accept: application/json" http://user:secret@172.18.0.11:8300/oauth/token -d grant_type=client_credentials #DOESN'T WOR
 ###Request kommt bei  Oautserver and die respons ist aber error unauthorized
 curl -i -H 'Content-Type: code' -X POST 'http://172.18.0.11:8300/oauth/token' -d 'grant_type=client_credentials&client_id=coreProductId&client_secret=coreProductSecret'
 ###
-
+curl -i -X GET -H "Authorization: Bearer 5f77f153-f167-49e8-a229-f6164855984f" http://172.18.0.6:8772/product # WORKS !!!
+###
+curl -i -X GET -H "Authorization: OAuth 5f77f153-f167-49e8-a229-f6164855984f" http://172.18.0.6:8772/product  -d 'grant_type=client_credentials&client_id=coreProductId&client_secret=coreProductSecret'
+###
 curl -H "Accept: application/json" http://my-client-with-secret:apiProductSecret@172.18.0.6:8772/oauth/token -d grant_type=client_credentials
-
 ###
-
 curl --user apiProductId:apiProductSecret http://172.18.0.6:8772/products
-
 ###
-
 curl -H "Authorization: Bearer 67fb656d-4ddf-4bd7-ad4d-6230a1c377fa" http://localhost:8080/hello
-
 ### 
-
 curl -X POST -H "Authorization: Bearer 1f80a890-27ef-4673-89ac-02ee0a4fecdf" http://localhost:8080/fibonacci
-
 ###
 #Test Without Authorization
 curl -X POST http://localhost:8080/fibonacci
-
 ### 
-
 curl -X DELETE -H "Authorization: Bearer 64af2e03-7272-4077-824a-91c180a01527" http://localhost:8080/fibonacci
-
 ###
-
 POST http://my-client-with-secret:secret@localhost:8080/oauth/token?grant_type=client_credentials HTTP/1.1
 Accept: application/json
-
 grant_type=client_credentials
-
 ###
-
 GET http://localhost:8080/hello HTTP/1.1
 Authorization: Bearer b058b8f7-5459-4d67-be8f-610ada802033
