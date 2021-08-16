@@ -1,10 +1,31 @@
-curl coreProductId:coreProductSecret@172.18.0.11:8300/oauth/token -dgrant_type=client_credentials #WORKS !!!
-###
-curl -H "Accept: application/json" http://user:secret@172.18.0.11:8300/oauth/token -d grant_type=client_credentials #DOESN'T WOR
+###Request Product Token
+curl coreProductId:coreProductSecret@172.18.0.11:8300/oauth/token -dgrant_type=client_credentials
+###Request Category Token
+curl coreCategoryId:coreCategorySecret@172.18.0.11:8300/oauth/token -dgrant_type=client_credentials
+###Request User Token
+curl coreUserId:coreUserSecret@172.18.0.11:8300/oauth/token -dgrant_type=client_credentials
+
+
+###Request Products
+curl -i -X GET -H "Authorization: Bearer 04145750-d0b3-46a3-bb7d-f538b99df665" http://172.18.0.6:8772/product 
+### Request Products Zuul
+curl -i -X GET -H "Authorization: Bearer fbbc9bdd-0e40-423a-a200-043da556580c" http://172.18.0.10:8791/product-service/product
+###Request Categories
+curl -i -X GET -H "Authorization: Bearer 5ba84d20-60ec-45bf-9f96-831c7d20b61c" http://172.18.0.8:8771/category
+### Request Categories Zuul
+curl -i -X GET -H "Authorization: Bearer 57340c9c-29a6-429d-b435-81e11d2d56d3" http://172.18.0.10:8791/category-service/category
+### POST User 
+curl -i -X POST -H "Authorization: Bearer 1679f38b-49af-4674-9006-625fcd2f1ba3" http://172.18.0.7:8773/user -d '{"username":"sola", "firstname":"olaf", "lastname":"olafson","password":"asdf"}' -H "Content-Type: application/json"
+### POST User Zuul
+curl -i -X POST -H "Authorization: Bearer 1679f38b-49af-4674-9006-625fcd2f1ba3" http://172.18.0.10:8791/user-service/user -d '{"username":"asdfw", "firstname":"olaf", "lastname":"olafson","password":"asdf"}' -H "Content-Type: application/json"
+
+##################################################
+######################BACKUP######################
+##################################################
+curl -H "Accept: application/json" http://user:secret@172.18.0.11:8300/oauth/token -d grant_type=client_credentials #DOESN'T WORK
 ###Request kommt bei  Oautserver and die respons ist aber error unauthorized
 curl -i -H 'Content-Type: code' -X POST 'http://172.18.0.11:8300/oauth/token' -d 'grant_type=client_credentials&client_id=coreProductId&client_secret=coreProductSecret'
-###
-curl -i -X GET -H "Authorization: Bearer 5f77f153-f167-49e8-a229-f6164855984f" http://172.18.0.6:8772/product # WORKS !!!
+
 ###
 curl -i -X GET -H "Authorization: OAuth 5f77f153-f167-49e8-a229-f6164855984f" http://172.18.0.6:8772/product  -d 'grant_type=client_credentials&client_id=coreProductId&client_secret=coreProductSecret'
 ###

@@ -9,6 +9,7 @@ eureka:
         
 zuul:
     ignoredServices: '*'
+    sensitiveHeaders: Cookie,Set-Cookie
     routes:
         core-service-category: 
             path: /category-service/**
@@ -23,4 +24,8 @@ zuul:
             path: /composite/**
             serviceId: composite-product-category
 
-
+management:
+    endpoints:
+        web:
+            exposure:
+                include: "*"

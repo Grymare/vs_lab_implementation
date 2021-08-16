@@ -50,8 +50,15 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         .authorities("ROLE_USER", "ROLE_ADMIN")
         .scopes("read", "write")
         .autoApprove(true)
-        .secret(encoder.encode("coreCategorySecret"));
-
+        .secret(encoder.encode("coreCategorySecret"))
+        .and()
+        .withClient("coreUserId")
+        .authorizedGrantTypes("client_credentials")
+        .authorities("ROLE_USER", "ROLE_ADMIN")
+        .scopes("read", "write")
+        .autoApprove(true)
+        .secret(encoder.encode("coreUserSecret"));
+        
                 /*
                 .withClient("frontendId")
                 .authorizedGrantTypes("password", "authorization_code", "refresh_token", "client_credentials")
