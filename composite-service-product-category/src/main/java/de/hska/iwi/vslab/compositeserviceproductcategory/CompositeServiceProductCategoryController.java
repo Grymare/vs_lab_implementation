@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.Arrays;
 
 import org.json.JSONObject;
 import org.json.JSONArray;
@@ -25,8 +26,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.oauth2.client.token.grant.client.ClientCredentialsResourceDetails;
 
 import org.springframework.web.client.RestTemplate;
+import org.springframework.security.oauth2.client.OAuth2RestTemplate;
+import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
+import org.springframework.security.oauth2.client.token.AccessTokenRequest;
+import org.springframework.security.oauth2.client.token.DefaultAccessTokenRequest;
 
 @RestController
 @Component
@@ -57,22 +63,44 @@ public class CompositeServiceProductCategoryController {
      * über eine Liste (müssen wir zu XML wandeln)
      */
     @RequestMapping(value = "/product", method = RequestMethod.GET)
-    @HystrixCommand(fallbackMethod = "getProducts_fallback", commandProperties = {
-        @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "2") })
+    //@HystrixCommand(fallbackMethod = "getProducts_fallback", commandProperties = {
+    //    @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "2") })
     public ResponseEntity<String> getProducts() {
-
+        System.out.println("HERE1");
         // Load Balancer
         String url_product = get_product_url();
         String url_category = get_category_url();
+        System.out.println("HERE2");
+        // Load Balancer
+        // SECURITY
+        ClientCredentialsResourceDetails resourceDetailsProduct  = new ClientCredentialsResourceDetails();
+        resourceDetailsProduct.setAccessTokenUri("http://172.18.0.11:8300/oauth/check_token");
+        resourceDetailsProduct.setClientId("coreProductId");
+        resourceDetailsProduct.setClientSecret("coreProductSecret");
+        resourceDetailsProduct.setGrantType("client_credentials");
+        resourceDetailsProduct.setScope(Arrays.asList("message.read", "message.write"));
+        AccessTokenRequest atrProduct = new DefaultAccessTokenRequest();
+        OAuth2RestTemplate restTemplateProduct = new OAuth2RestTemplate(resourceDetailsProduct, new DefaultOAuth2ClientContext(atrProduct));
+        
+        ClientCredentialsResourceDetails resourceDetailsCategory  = new ClientCredentialsResourceDetails();
+        resourceDetailsCategory.setAccessTokenUri("http://172.18.0.11:8300/oauth/check_token");
+        resourceDetailsCategory.setClientId("coreCategoryId");
+        resourceDetailsCategory.setClientSecret("coreCategorySecret");
+        resourceDetailsCategory.setGrantType("client_credentials");
+        resourceDetailsCategory.setScope(Arrays.asList("message.read", "message.write"));
+        AccessTokenRequest atrCategory = new DefaultAccessTokenRequest();
+        OAuth2RestTemplate restTemplateCategory = new OAuth2RestTemplate(resourceDetailsCategory, new DefaultOAuth2ClientContext(atrCategory));
+        // SECURITY
 
-        RestTemplate restTemplate = new RestTemplate();
-
-        ResponseEntity<String> productResponse = restTemplate.getForEntity(url_product + "/product", String.class);
-        ResponseEntity<String> categoryResponse = restTemplate.getForEntity(url_category + "/category", String.class);
-
+        //RestTemplate restTemplate = new RestTemplate();
+        System.out.println("HERE3");
+        ResponseEntity<String> productResponse = restTemplateProduct.getForEntity(url_product + "/product", String.class);
+        System.out.println("HERE3.1");
+        ResponseEntity<String> categoryResponse = restTemplateCategory.getForEntity(url_category + "/category", String.class);
+        System.out.println("HERE4");
         JSONArray j_product_array = new JSONArray(productResponse.getBody().toString());
         JSONArray j_category_array = new JSONArray(categoryResponse.getBody().toString());
-
+        System.out.println("HERE5");
         //j_product_cache = j_product_array;
         //j_category_cache = j_category_array;
 

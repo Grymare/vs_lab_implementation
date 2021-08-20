@@ -4,7 +4,8 @@ curl coreProductId:coreProductSecret@172.18.0.11:8300/oauth/token -dgrant_type=c
 curl coreCategoryId:coreCategorySecret@172.18.0.11:8300/oauth/token -dgrant_type=client_credentials
 ###Request User Token
 curl coreUserId:coreUserSecret@172.18.0.11:8300/oauth/token -dgrant_type=client_credentials
-
+###Request Composite Token
+curl compositeId:compositeSecret@172.18.0.11:8300/oauth/token -dgrant_type=client_credentials
 
 ###Request Products
 curl -i -X GET -H "Authorization: Bearer 04145750-d0b3-46a3-bb7d-f538b99df665" http://172.18.0.6:8772/product 
@@ -18,6 +19,8 @@ curl -i -X GET -H "Authorization: Bearer 57340c9c-29a6-429d-b435-81e11d2d56d3" h
 curl -i -X POST -H "Authorization: Bearer 1679f38b-49af-4674-9006-625fcd2f1ba3" http://172.18.0.7:8773/user -d '{"username":"sola", "firstname":"olaf", "lastname":"olafson","password":"asdf"}' -H "Content-Type: application/json"
 ### POST User Zuul
 curl -i -X POST -H "Authorization: Bearer 1679f38b-49af-4674-9006-625fcd2f1ba3" http://172.18.0.10:8791/user-service/user -d '{"username":"asdfw", "firstname":"olaf", "lastname":"olafson","password":"asdf"}' -H "Content-Type: application/json"
+### GET Product COMPOSITE
+curl -i -X GET -H "Authorization: Bearer 5d75f7b7-3810-44fa-ac14-5026360be4f6" http://172.18.0.9:8774/product
 
 ##################################################
 ######################BACKUP######################
