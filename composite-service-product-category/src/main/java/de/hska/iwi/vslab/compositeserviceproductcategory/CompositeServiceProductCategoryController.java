@@ -33,6 +33,7 @@ import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
 import org.springframework.security.oauth2.client.token.AccessTokenRequest;
 import org.springframework.security.oauth2.client.token.DefaultAccessTokenRequest;
+import org.springframework.security.oauth2.common.AuthenticationScheme;
 
 @RestController
 @Component
@@ -58,13 +59,46 @@ public class CompositeServiceProductCategoryController {
         return serviceInstance.getUri().toString();
     }
 
+    private OAuth2RestTemplate get_rest_template_product(){
+
+        ClientCredentialsResourceDetails resourceDetailsProduct  = new ClientCredentialsResourceDetails();
+        resourceDetailsProduct.setAuthenticationScheme(AuthenticationScheme.header);
+        resourceDetailsProduct.setClientAuthenticationScheme(AuthenticationScheme.header);
+        resourceDetailsProduct.setId("1");
+        resourceDetailsProduct.setTokenName("Core_Product");
+        resourceDetailsProduct.setAccessTokenUri("http://172.18.0.11:8300/oauth/token");
+        resourceDetailsProduct.setClientId("coreProductId");
+        resourceDetailsProduct.setClientSecret("coreProductSecret");
+        resourceDetailsProduct.setGrantType("client_credentials");
+        resourceDetailsProduct.setScope(Arrays.asList("read", "write"));
+        AccessTokenRequest atrProduct = new DefaultAccessTokenRequest();
+        return new OAuth2RestTemplate(resourceDetailsProduct, new DefaultOAuth2ClientContext(atrProduct));
+    }
+
+    private OAuth2RestTemplate get_rest_template_category(){
+
+        ClientCredentialsResourceDetails resourceDetailsCategory  = new ClientCredentialsResourceDetails();
+        resourceDetailsCategory.setAuthenticationScheme(AuthenticationScheme.header);
+        resourceDetailsCategory.setClientAuthenticationScheme(AuthenticationScheme.header);
+        resourceDetailsCategory.setId("1");
+        resourceDetailsCategory.setTokenName("Core_Category");
+        resourceDetailsCategory.setAccessTokenUri("http://172.18.0.11:8300/oauth/token");
+        resourceDetailsCategory.setClientId("coreCategoryId");
+        resourceDetailsCategory.setClientSecret("coreCategorySecret");
+        resourceDetailsCategory.setGrantType("client_credentials");
+        resourceDetailsCategory.setScope(Arrays.asList("read", "write"));
+        AccessTokenRequest atrCategory = new DefaultAccessTokenRequest();
+        return new OAuth2RestTemplate(resourceDetailsCategory, new DefaultOAuth2ClientContext(atrCategory));
+    }
+
+
     /**
      * Gibt alle Kategorien zurück die es in der Datenbank gibt Die Rückgabe erfolgt
      * über eine Liste (müssen wir zu XML wandeln)
      */
     @RequestMapping(value = "/product", method = RequestMethod.GET)
-    //@HystrixCommand(fallbackMethod = "getProducts_fallback", commandProperties = {
-    //    @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "2") })
+    @HystrixCommand(fallbackMethod = "getProducts_fallback", commandProperties = {
+        @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "2") })
     public ResponseEntity<String> getProducts() {
         System.out.println("HERE1");
         // Load Balancer
@@ -72,24 +106,10 @@ public class CompositeServiceProductCategoryController {
         String url_category = get_category_url();
         System.out.println("HERE2");
         // Load Balancer
+
         // SECURITY
-        ClientCredentialsResourceDetails resourceDetailsProduct  = new ClientCredentialsResourceDetails();
-        resourceDetailsProduct.setAccessTokenUri("http://172.18.0.11:8300/oauth/check_token");
-        resourceDetailsProduct.setClientId("coreProductId");
-        resourceDetailsProduct.setClientSecret("coreProductSecret");
-        resourceDetailsProduct.setGrantType("client_credentials");
-        resourceDetailsProduct.setScope(Arrays.asList("message.read", "message.write"));
-        AccessTokenRequest atrProduct = new DefaultAccessTokenRequest();
-        OAuth2RestTemplate restTemplateProduct = new OAuth2RestTemplate(resourceDetailsProduct, new DefaultOAuth2ClientContext(atrProduct));
-        
-        ClientCredentialsResourceDetails resourceDetailsCategory  = new ClientCredentialsResourceDetails();
-        resourceDetailsCategory.setAccessTokenUri("http://172.18.0.11:8300/oauth/check_token");
-        resourceDetailsCategory.setClientId("coreCategoryId");
-        resourceDetailsCategory.setClientSecret("coreCategorySecret");
-        resourceDetailsCategory.setGrantType("client_credentials");
-        resourceDetailsCategory.setScope(Arrays.asList("message.read", "message.write"));
-        AccessTokenRequest atrCategory = new DefaultAccessTokenRequest();
-        OAuth2RestTemplate restTemplateCategory = new OAuth2RestTemplate(resourceDetailsCategory, new DefaultOAuth2ClientContext(atrCategory));
+        OAuth2RestTemplate restTemplateProduct = get_rest_template_product();
+        OAuth2RestTemplate restTemplateCategory = get_rest_template_category();
         // SECURITY
 
         //RestTemplate restTemplate = new RestTemplate();
@@ -157,12 +177,14 @@ public class CompositeServiceProductCategoryController {
         @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "2") })    
     public ResponseEntity<String> getProduct(@PathVariable Integer productID) {
 
-        RestTemplate restTemplate = new RestTemplate();
 
         String url_product = get_product_url();
         String url_category = get_category_url();
+        
+        OAuth2RestTemplate restTemplateProduct = get_rest_template_product();
+        OAuth2RestTemplate restTemplateCategory = get_rest_template_category();
 
-        ResponseEntity<String> productResponse = restTemplate.getForEntity(url_product + "/product/" + productID,
+        ResponseEntity<String> productResponse = restTemplateProduct.getForEntity(url_product + "/product/" + productID,
                 String.class);
         JSONObject j_product = new JSONObject(productResponse.getBody().toString());
 
@@ -171,7 +193,7 @@ public class CompositeServiceProductCategoryController {
         }
 
         int categoryID = Integer.valueOf(j_product.get("categoryID").toString());
-        ResponseEntity<String> categoryResponse = restTemplate.getForEntity(url_category + "/category/" + categoryID,
+        ResponseEntity<String> categoryResponse = restTemplateCategory.getForEntity(url_category + "/category/" + categoryID,
                 String.class);
         JSONObject j_category = new JSONObject(categoryResponse.getBody().toString());
         if (j_category.isEmpty()) {
@@ -214,8 +236,10 @@ public class CompositeServiceProductCategoryController {
         String url_product = get_product_url();
         String url_category = get_category_url();
 
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> productResponse = restTemplate.getForEntity(url_product + "/product", String.class);
+        OAuth2RestTemplate restTemplateProduct = get_rest_template_product();
+        OAuth2RestTemplate restTemplateCategory = get_rest_template_category();
+
+        ResponseEntity<String> productResponse = restTemplateProduct.getForEntity(url_product + "/product", String.class);
         JSONArray j_product_array = new JSONArray(productResponse.getBody().toString());
         
 
@@ -229,12 +253,12 @@ public class CompositeServiceProductCategoryController {
             // Delete product
             if (catID == categoryID) {
                 int prodID = Integer.valueOf(j_product.get("id").toString());
-                restTemplate.delete(url_product + "/product/" + prodID);
+                restTemplateProduct.delete(url_product + "/product/" + prodID);
             }
         }
 
         // Delete category
-        restTemplate.delete(url_category + "/category/" + categoryID);
+        restTemplateCategory.delete(url_category + "/category/" + categoryID);
 
         return HttpStatus.OK;
     }
@@ -258,14 +282,15 @@ public class CompositeServiceProductCategoryController {
         String url_product = get_product_url();
         String url_category = get_category_url();
 
-        RestTemplate restTemplate = new RestTemplate();
+        OAuth2RestTemplate restTemplateProduct = get_rest_template_product();
+        OAuth2RestTemplate restTemplateCategory = get_rest_template_category();
 
         String uri_param = "?searchtext=" + searchtext + "&min=" + Double.toString(min) + "&max="
                 + Double.toString(max);
 
-        ResponseEntity<String> productResponse = restTemplate.getForEntity(url_product + "/product/" + uri_param,
+        ResponseEntity<String> productResponse = restTemplateProduct.getForEntity(url_product + "/product/" + uri_param,
                 String.class);
-        ResponseEntity<String> categoryResponse = restTemplate.getForEntity(url_category + "/category", String.class);
+        ResponseEntity<String> categoryResponse = restTemplateCategory.getForEntity(url_category + "/category", String.class);
 
         JSONArray j_product_array = new JSONArray(productResponse.getBody().toString());
         JSONArray j_category_array = new JSONArray(categoryResponse.getBody().toString());

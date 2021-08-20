@@ -106,7 +106,8 @@ services:
     ports:
       - "8774:8774"
     networks:
-      - vs_network
+      vs_network:
+        ipv4_address: 172.18.0.9
 
   zuul-application:
     build: zuul-application/
@@ -124,7 +125,8 @@ services:
     ports:
       - "8791:8791"
     networks:
-      - vs_network
+      vs_network:
+        ipv4_address: 172.18.0.10
     
       
   oauthserver:
@@ -138,8 +140,10 @@ services:
     - eureka_server
     ports:
       - "4444:4444"
+      - "8300:8300"
     networks:
-      - vs_network
+      vs_network:
+        ipv4_address: 172.18.0.11
   
 
 
