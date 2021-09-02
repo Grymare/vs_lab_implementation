@@ -85,4 +85,18 @@ public class CoreServiceUserController {
     private boolean userLogout(String sessionkey) {
         return true;
     }
+
+    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    public ResponseEntity<Object> login(@RequestParam(required = true) String username) {
+        Iterable<Account> userIterable = userRepository.findAll();
+
+        for (Account user : userIterable) {
+            if (user.getUsername().equals(username)) {
+                return new ResponseEntity<Object>(user, HttpStatus.OK);
+            }
+        }
+
+        return new ResponseEntity<Object>("", HttpStatus.FORBIDDEN);
+    }
+
 }

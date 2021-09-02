@@ -1,4 +1,4 @@
-package de.hska.iwi.vislab.oauthserver;
+package de.hska.iwi.vslab.oauthserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
