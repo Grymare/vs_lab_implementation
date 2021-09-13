@@ -2,6 +2,7 @@ package hska.iwi.eShopMaster.controller;
 
 import hska.iwi.eShopMaster.model.businessLogic.manager.CategoryManager;
 import hska.iwi.eShopMaster.model.businessLogic.manager.ProductManager;
+import hska.iwi.eShopMaster.model.businessLogic.manager.REST.Account;
 import hska.iwi.eShopMaster.model.businessLogic.manager.impl.CategoryManagerImpl;
 import hska.iwi.eShopMaster.model.businessLogic.manager.impl.ProductManagerImpl;
 import hska.iwi.eShopMaster.model.database.dataobjects.Category;
@@ -30,7 +31,7 @@ public class SearchAction extends ActionSupport{
 	private Double sMinPrice = null;
 	private Double sMaxPrice = null;
 	
-	private User user;
+	private Account user;
 	private List<Product> products;
 	private List<Category> categories;
 	
@@ -41,20 +42,22 @@ public class SearchAction extends ActionSupport{
 		
 		// Get user:
 		Map<String, Object> session = ActionContext.getContext().getSession();
-		user = (User) session.get("webshop_user");
+		user = (Account) session.get("webshop_user");
 		ActionContext.getContext().setLocale(Locale.US);  
 		
 		if(user != null){
 			// Search products and show results:
 			ProductManager productManager = new ProductManagerImpl();
-//			this.products = productManager.getProductsForSearchValues(this.searchDescription, this.searchMinPrice, this.searchMaxPrice);
+			//this.products = productManager.getProductsForSearchValues(this.searchDescription, this.searchMinPrice, this.searchMaxPrice);
 			if (!searchMinPrice.isEmpty()){
 				sMinPrice =  Double.parseDouble(this.searchMinPrice);
 			}
 			if (!searchMaxPrice.isEmpty()){
 				sMaxPrice =  Double.parseDouble(this.searchMaxPrice);
 			}
-			this.products = productManager.getProductsForSearchValues(this.searchDescription, sMinPrice, sMaxPrice);
+
+			java.util.List<hska.iwi.eShopMaster.model.businessLogic.manager.REST.Product> test = productManager.getProducts();
+			//this.products = productManager.getProductsForSearchValues(this.searchDescription, sMinPrice, sMaxPrice);
 			
 			// Show all categories:
 			CategoryManager categoryManager = new CategoryManagerImpl();
@@ -66,11 +69,11 @@ public class SearchAction extends ActionSupport{
 	}
 			
 		
-		public User getUser() {
+		public Account getUser() {
 			return user;
 		}
 
-		public void setUser(User user) {
+		public void setUser(Account user) {
 			this.user = user;
 		}
 		

@@ -2,38 +2,49 @@ package hska.iwi.eShopMaster.model.businessLogic.manager.impl;
 
 import hska.iwi.eShopMaster.model.businessLogic.manager.CategoryManager;
 import hska.iwi.eShopMaster.model.businessLogic.manager.ProductManager;
-import hska.iwi.eShopMaster.model.database.dataAccessObjects.ProductDAO;
-import hska.iwi.eShopMaster.model.database.dataobjects.Category;
-import hska.iwi.eShopMaster.model.database.dataobjects.Product;
+import hska.iwi.eShopMaster.model.businessLogic.manager.REST.Product;
+//import hska.iwi.eShopMaster.model.database.dataAccessObjects.ProductDAO;
+//import hska.iwi.eShopMaster.model.database.dataobjects.Category;
+//import hska.iwi.eShopMaster.model.database.dataobjects.Product;
+import hska.iwi.eShopMaster.model.businessLogic.manager.REST.ProductManagerREST;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ProductManagerImpl implements ProductManager {
-	private ProductDAO helper;
-	
+	//private ProductDAO helper;
+	ProductManagerREST helper;
+
+
 	public ProductManagerImpl() {
-		helper = new ProductDAO();
+		helper = new ProductManagerREST();
 	}
 
 	public List<Product> getProducts() {
-		return helper.getObjectList();
+		return helper.getProducts();//.getObjectList();
 	}
+	
 	
 	public List<Product> getProductsForSearchValues(String searchDescription,
 			Double searchMinPrice, Double searchMaxPrice) {	
-		return new ProductDAO().getProductListByCriteria(searchDescription, searchMinPrice, searchMaxPrice);
+		return null;
+		//return new ProductDAO().getProductListByCriteria(searchDescription, searchMinPrice, searchMaxPrice);
 	}
 
 	public Product getProductById(int id) {
-		return helper.getObjectById(id);
+		return null;
+		//return helper.getObjectById(id);
 	}
 
 	public Product getProductByName(String name) {
-		return helper.getObjectByName(name);
+		return null;
+		//return helper.getObjectByName(name);
 	}
 	
 	public int addProduct(String name, double price, int categoryId, String details) {
-		int productId = -1;
+		return 0;
+		/*int productId = -1;
 		
 		CategoryManager categoryManager = new CategoryManagerImpl();
 		Category category = categoryManager.getCategory(categoryId);
@@ -50,17 +61,17 @@ public class ProductManagerImpl implements ProductManager {
 			productId = product.getId();
 		}
 			 
-		return productId;
+		return productId;*/
 	}
 	
 
 	public void deleteProductById(int id) {
-		helper.deleteById(id);
+		//helper.deleteById(id);
 	}
 
 	public boolean deleteProductsByCategoryId(int categoryId) {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
+	
 }

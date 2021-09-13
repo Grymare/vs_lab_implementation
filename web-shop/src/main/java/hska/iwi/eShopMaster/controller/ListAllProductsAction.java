@@ -30,7 +30,7 @@ public class ListAllProductsAction extends ActionSupport {
 		if(user != null){
 			System.out.println("list all products!");
 			ProductManager productManager = new ProductManagerImpl();
-			this.products = productManager.getProducts();
+			//this.products = productManager.getProducts();
 			result = "success";
 		}
 		
