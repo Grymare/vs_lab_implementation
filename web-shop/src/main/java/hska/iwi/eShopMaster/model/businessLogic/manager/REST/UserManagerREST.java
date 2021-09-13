@@ -23,8 +23,8 @@ public class UserManagerREST{
     private LoadBalancerClient loadBalancer;
 
     private String get_user_url(){
-        return "http://172.18.0.10:8791/user-service";
-        
+        return "http://172.18.0.10:8791/user-service"; // THIS WORKS TOO!
+        //return "http://172.18.0.7:8773/"; // THIS WORKS 
         /*
         ServiceInstance serviceInstance=loadBalancer.choose("core-service-user");
         System.out.println(serviceInstance.getUri());
