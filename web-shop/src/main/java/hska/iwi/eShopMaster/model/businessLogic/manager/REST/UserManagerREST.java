@@ -1,4 +1,4 @@
-package de.hska.iwi.vslab.oauthserver;
+package hska.iwi.eShopMaster.model.businessLogic.manager.REST;
 
 import java.util.Arrays;
 
@@ -18,16 +18,18 @@ import org.springframework.security.oauth2.client.token.grant.client.ClientCrede
 import org.springframework.security.oauth2.common.AuthenticationScheme;
 
 
-//import de.hska.iwi.vislab.oauthserver.REST.ConsumeCoreUser;
-
-public class CustomUserDetailsService implements UserDetailsService {
+public class UserManagerREST{
     @Autowired
     private LoadBalancerClient loadBalancer;
 
     private String get_user_url(){
+        return "http://172.18.0.10:8791/user-service";
+        
+        /*
         ServiceInstance serviceInstance=loadBalancer.choose("core-service-user");
         System.out.println(serviceInstance.getUri());
         return serviceInstance.getUri().toString();
+        */
     }
 
     private OAuth2RestTemplate get_rest_template_user(){
@@ -55,7 +57,38 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private PasswordEncoder encoder;
 
-    @Override
+    public Account getUserByUsername(String username) throws UsernameNotFoundException {
+        System.out.println(get_user_url());
+        try {
+            OAuth2RestTemplate restTemplateUser = get_rest_template_user();
+            Account user = restTemplateUser.getForObject(get_user_url() + "/user"+ "?username=" + username, Account.class);
+            System.out.println("User in loadByUsername: " + user.getUsername());
+            return user;
+
+        } catch (Exception e) {
+            System.out.println("GETTING user failed! in loadbyUsername");
+            System.out.println(e);
+        }
+
+        return null;//User.withUsername("fallback").username("fallback").password(encoder.encode("supersecret")).roles("ADMIN").build();
+    }
+
+    /*
+    public Account deleteObject(Account user) throws UsernameNotFoundException {
+        try {
+            OAuth2RestTemplate restTemplateUser = get_rest_template_user();
+            Account user = restTemplateUser.getForObject(get_user_url() + "/user" + username, Account.class);
+            System.out.println("User in loadByUsername: " + user.getUsername());
+            return user;
+
+        } catch (Exception e) {
+            System.out.println("GETTING user failed! in loadbyUsername");
+        }
+
+        return null;//User.withUsername("fallback").username("fallback").password(encoder.encode("supersecret")).roles("ADMIN").build();
+    }
+    */
+
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         try {
             OAuth2RestTemplate restTemplateUser = get_rest_template_user();
@@ -77,3 +110,4 @@ public class CustomUserDetailsService implements UserDetailsService {
         return User.withUsername("fallback").username("fallback").password(encoder.encode("supersecret")).roles("ADMIN").build();
     }
 }
+

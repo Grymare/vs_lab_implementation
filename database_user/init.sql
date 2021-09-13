@@ -7,6 +7,5 @@ CREATE TABLE public.account(
     permission int
 );
 
-INSERT INTO account (username, firstname, lastname, password, permission) VALUES ('bech','christian','becker','asdf', 0);
-INSERT INTO account (username, firstname, lastname, password, permission) VALUES ('grymare','hendrik','icet','wasd', 1);
-INSERT INTO account (username, firstname, lastname, password, permission) VALUES ('alphapfote','jana','becker','qwas', 1);
+INSERT INTO account (username, firstname, lastname, password, permission) VALUES ('admin','admin','admin','admin', 0);
+INSERT INTO account (username, firstname, lastname, password, permission) VALUES ('user','user','user','user', 1);

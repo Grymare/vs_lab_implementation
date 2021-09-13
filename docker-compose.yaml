@@ -145,6 +145,22 @@ services:
       vs_network:
         ipv4_address: 172.18.0.11
   
+  web-shop:
+    build: web-shop/
+    image: web-shop
+    container_name: webshop
+    environment:
+      - eureka.client.serviceUrl.defaultZone=http://eurekaserver:8761/eureka/
+    depends_on:
+    - eureka_server
+    - database_product
+    - core-service-category
+    - core-service-product
+    ports:
+      - "8888:8080"
+    networks:
+      vs_network:
+        ipv4_address: 172.18.0.12
 
 
 networks:

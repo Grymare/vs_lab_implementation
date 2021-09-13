@@ -51,6 +51,11 @@ http://localhost:8761/
 - database_product: 5555
 - database_user: 5666
 
+- web_shop: 172.18.0.12:8888 http://localhost:8888/EShop-1.0.0/
 
 **NOTE:** The expose comand in dockerfile does only opens ports to the container interface. In Order to communicate with the host
 the port must be specified either in the startup docker command or the docker-compose file.
+
+## Problems with syntaxhighlighting 
+
+``` rm -rf $HOME/.config/Code/User/workspaceStorage ```
