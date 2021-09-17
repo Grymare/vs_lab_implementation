@@ -1,12 +1,13 @@
 package hska.iwi.eShopMaster.model.businessLogic.manager;
 
 import hska.iwi.eShopMaster.model.businessLogic.manager.REST.Product;
+import hska.iwi.eShopMaster.model.businessLogic.manager.REST.ProductOutput;
 
 import java.util.List;
 
 public interface ProductManager {
 
-	public List<Product> getProducts();
+	public List<ProductOutput> getProducts();
 
 	public Product getProductById(int id);
 

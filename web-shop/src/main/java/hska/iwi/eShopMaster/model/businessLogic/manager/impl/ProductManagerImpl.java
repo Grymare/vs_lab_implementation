@@ -7,6 +7,7 @@ import hska.iwi.eShopMaster.model.businessLogic.manager.REST.Product;
 //import hska.iwi.eShopMaster.model.database.dataobjects.Category;
 //import hska.iwi.eShopMaster.model.database.dataobjects.Product;
 import hska.iwi.eShopMaster.model.businessLogic.manager.REST.ProductManagerREST;
+import hska.iwi.eShopMaster.model.businessLogic.manager.REST.ProductOutput;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,7 +22,7 @@ public class ProductManagerImpl implements ProductManager {
 		helper = new ProductManagerREST();
 	}
 
-	public List<Product> getProducts() {
+	public List<ProductOutput> getProducts() {
 		return helper.getProducts();//.getObjectList();
 	}
 	

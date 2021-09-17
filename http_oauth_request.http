@@ -27,6 +27,10 @@ curl -i -X GET -H "Authorization: Bearer 38a751df-4676-4921-a87f-6499829e64bc" h
 ##################################################
 ######################BACKUP######################
 ##################################################
+
+
+curl -i -X POST -H "Authorization: Bearer 530a02a1-aac7-4d3e-9987-ddef1470ac0d" http://172.18.0.10:8791/user-service/user?username=user
+
 curl -H "Accept: application/json" http://user:secret@172.18.0.11:8300/oauth/token -d grant_type=client_credentials #DOESN'T WORK
 ###Request kommt bei  Oautserver and die respons ist aber error unauthorized
 curl -i -H 'Content-Type: code' -X POST 'http://172.18.0.11:8300/oauth/token' -d 'grant_type=client_credentials&client_id=coreProductId&client_secret=coreProductSecret'

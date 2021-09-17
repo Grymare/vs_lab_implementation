@@ -11,24 +11,24 @@ import org.json.JSONObject;
 public class ProductOutput {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String name;
 	private double price;
 	private String details;
-	private String categoryString;
+	private String categoryName;
+	private int categoryID;
 
-	
 	public ProductOutput() {
 	}
 
-	public ProductOutput(String name, double price, String details,  String categoryString) {
+	public ProductOutput(String name, double price, String details, String categoryName, int categoryID) {
 		this.name = name;
 		this.price = price;
 		this.details = details;
-		this.categoryString = categoryString;
+		this.categoryName = categoryName;
+		this.categoryID = categoryID;
 	}
-
 
 	public int getId() {
 		return this.id;
@@ -54,12 +54,12 @@ public class ProductOutput {
 		this.price = price;
 	}
 
-	public String getCategoryString() {
-		return this.categoryString;
+	public String getCategoryName() {
+		return this.categoryName;
 	}
 
-	public void setCategory(String categoryString) {
-		this.categoryString = categoryString;
+	public void setCategory(String categoryName) {
+		this.categoryName = categoryName;
 	}
 
 	public String getDetails() {
@@ -70,16 +70,29 @@ public class ProductOutput {
 		this.details = details;
 	}
 
-	public JSONObject getJSONObject(){
+	public int getCategoryID() {
+		return this.categoryID;
+	}
+
+	public void setCategoryID(int categoryID) {
+		this.categoryID = categoryID;
+	}
+
+	public JSONObject getJSONObject() {
 		JSONObject prod = new JSONObject();
 
 		prod.put("id", this.id);
 		prod.put("name", this.name);
 		prod.put("price", this.price);
-		prod.put("categoryString", this.categoryString);
+		prod.put("categoryName", this.categoryName);
 		prod.put("details", this.details);
 		return prod;
-	} 
+	}
 
+	public String toString() {
 
+		return "id:" + id + " name:" + name + " price:" + price + " categoryName:" + categoryName + " categoryID:"
+				+ categoryID + " details:" + details;
+
+	}
 }
