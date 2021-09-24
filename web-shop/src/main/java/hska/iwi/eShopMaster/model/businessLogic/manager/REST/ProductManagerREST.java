@@ -66,12 +66,44 @@ public class ProductManagerREST {
      * details){
      * 
      * }
-     * 
-     * public List<Product> getProductsForSearchValues(String searchValue, Double
-     * searchMinPrice, Double searchMaxPrice){
-     * 
-     * }
-     * 
+     */
+
+    public List<ProductOutput> getProductsForSearchValues(String searchValue, Double searchMinPrice,
+            Double searchMaxPrice) {
+
+        System.out.println("getProductsForSearchValues-0");
+        System.out.println(rest_templates.get_composite_url());
+        System.out.println("?searchtext=" + searchValue + "&min=" + searchMinPrice + "&max=" + searchMaxPrice);
+        
+        try {
+            OAuth2RestTemplate restTemplateComposite = rest_templates.get_rest_template_composite();
+
+            System.out.println("getProductsForSearchValues-1");
+
+            String productsString = restTemplateComposite.getForObject(rest_templates.get_composite_url() + "/product/"
+                    + "?searchtext=" + searchValue + "&min=" + searchMinPrice + "&max=" + searchMaxPrice, String.class);
+
+            System.out.println(productsString);
+
+            Gson gson = new Gson();
+            ProductOutput[] productArray = gson.fromJson(productsString, ProductOutput[].class);
+            System.out.println("getProductsForSearchValues-2");
+            for (ProductOutput thing : productArray) {
+                System.out.println(thing.toString());
+            }
+
+            return Arrays.asList(productArray);
+
+        } catch (Exception e) {
+            System.out.println("GETTING getProductsForSearchValues failed! in getProducts");
+            System.out.println(e);
+        }
+
+        return null;// User.withUsername("fallback").username("fallback").password(encoder.encode("supersecret")).roles("ADMIN").build();
+
+    }
+
+    /*
      * public boolean deleteProductsByCategoryId(int categoryId){
      * 
      * }
@@ -80,5 +112,4 @@ public class ProductManagerREST {
      * 
      * }
      */
-
 }

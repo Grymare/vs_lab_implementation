@@ -27,9 +27,9 @@ public class ProductManagerImpl implements ProductManager {
 	}
 	
 	
-	public List<Product> getProductsForSearchValues(String searchDescription,
+	public List<ProductOutput> getProductsForSearchValues(String searchDescription,
 			Double searchMinPrice, Double searchMaxPrice) {	
-		return null;
+		return helper.getProductsForSearchValues(searchDescription, searchMinPrice, searchMaxPrice);
 		//return new ProductDAO().getProductListByCriteria(searchDescription, searchMinPrice, searchMaxPrice);
 	}
 

@@ -51,12 +51,16 @@ public class SearchAction extends ActionSupport {
 
 			if (!searchMinPrice.isEmpty()) {
 				sMinPrice = Double.parseDouble(this.searchMinPrice);
+			}else{
+				sMinPrice = 0.0;
 			}
 			if (!searchMaxPrice.isEmpty()) {
 				sMaxPrice = Double.parseDouble(this.searchMaxPrice);
+			}else{
+				sMaxPrice = -1.0;
 			}
-			//this.products = productManager.getProductsForSearchValues(this.searchDescription, sMinPrice, sMaxPrice);
-			products = productManager.getProducts();
+			products = productManager.getProductsForSearchValues(this.searchDescription, sMinPrice, sMaxPrice);
+			//products = productManager.getProducts();
 
 			result = "success";
 		}

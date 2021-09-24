@@ -15,7 +15,7 @@ public interface ProductManager {
 
 	public int addProduct(String name, double price, int categoryId, String details);
 
-	public List<Product> getProductsForSearchValues(String searchValue, Double searchMinPrice, Double searchMaxPrice);
+	public List<ProductOutput> getProductsForSearchValues(String searchValue, Double searchMinPrice, Double searchMaxPrice);
 	
 	public boolean deleteProductsByCategoryId(int categoryId);
 	
