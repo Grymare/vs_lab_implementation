@@ -21,7 +21,7 @@
 				<div>
 					<ul class="nav navbar-nav">
 						<li><a href="<s:url action="listAllProducts" />">Alle Produkte</a>
-						<s:if test="#session.webshop_user.role.level==0">   <!-- if admin -->
+						<s:if test="#session.webshop_user.permission==0">   <!-- if admin -->
 							<li><a href="./InitCategorySiteAction.action?pageToGoTo=p"><s:text name="product.add" /></a></li>
 							<li><a href="./InitCategorySiteAction.action?pageToGoTo=c"><s:text name="categories.edit" /></a></li>
 						</s:if>
@@ -77,11 +77,7 @@
 					<s:else>
 						<td><s:property value="id" /></td>
 						<td><s:property value="name" /></td>
-						<td><s:form action ="DeleteCategoryAction" >
-								<s:hidden name="catId" value="%{id}" />
-								<s:submit value="loeschen"/>
-							</s:form>
-							</td>
+						<td><a href="<s:url action="DeleteCategoryAction"><s:param name="catId" value="id" /></s:url>"><img src="img/delBtn.png" alt="<s:text name="product.delete" />"/></a></td>
 					</s:else>
 					</tr>
 				</s:iterator>

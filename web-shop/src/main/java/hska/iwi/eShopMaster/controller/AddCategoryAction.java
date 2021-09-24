@@ -2,8 +2,8 @@ package hska.iwi.eShopMaster.controller;
 
 import hska.iwi.eShopMaster.model.businessLogic.manager.CategoryManager;
 import hska.iwi.eShopMaster.model.businessLogic.manager.impl.CategoryManagerImpl;
-import hska.iwi.eShopMaster.model.database.dataobjects.Category;
-import hska.iwi.eShopMaster.model.database.dataobjects.User;
+import hska.iwi.eShopMaster.model.businessLogic.manager.REST.Account;
+import hska.iwi.eShopMaster.model.businessLogic.manager.REST.Category;
 
 import java.util.List;
 import java.util.Map;
@@ -22,21 +22,21 @@ public class AddCategoryAction extends ActionSupport {
 	
 	private List<Category> categories;
 	
-	User user;
+	Account user;
 
 	public String execute() throws Exception {
 
 		String res = "input";
 
 		Map<String, Object> session = ActionContext.getContext().getSession();
-		user = (User) session.get("webshop_user");
-		if(user != null && (user.getRole().getTyp().equals("admin"))) {
+		user = (Account) session.get("webshop_user");
+		if(user != null && (user.getPermission() == 0)) {
 			CategoryManager categoryManager = new CategoryManagerImpl();
 			// Add category
 			categoryManager.addCategory(newCatName);
 			
 			// Go and get new Category list
-			this.setCategories(categoryManager.getCategories());
+			//this.setCategories(categoryManager.getCategories());
 			
 			res = "success";
 		}

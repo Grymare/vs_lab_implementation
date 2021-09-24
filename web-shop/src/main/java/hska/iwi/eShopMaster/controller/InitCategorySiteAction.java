@@ -1,9 +1,9 @@
 package hska.iwi.eShopMaster.controller;
 
 import hska.iwi.eShopMaster.model.businessLogic.manager.CategoryManager;
+import hska.iwi.eShopMaster.model.businessLogic.manager.REST.Account;
 import hska.iwi.eShopMaster.model.businessLogic.manager.impl.CategoryManagerImpl;
-import hska.iwi.eShopMaster.model.database.dataobjects.Category;
-import hska.iwi.eShopMaster.model.database.dataobjects.User;
+import hska.iwi.eShopMaster.model.businessLogic.manager.REST.Category;
 
 import java.util.List;
 import java.util.Map;
@@ -19,7 +19,7 @@ public class InitCategorySiteAction extends ActionSupport {
 	private static final long serialVersionUID = -1108136421569378914L;
 
 	private String pageToGoTo;
-	private User user;
+	private Account user;
 
 	private List<Category> categories;
 
@@ -28,7 +28,7 @@ public class InitCategorySiteAction extends ActionSupport {
 		String res = "input";
 
 		Map<String, Object> session = ActionContext.getContext().getSession();
-		user = (User) session.get("webshop_user");
+		user = (Account) session.get("webshop_user");
 		boolean isAdmin = true;
 		if(user != null && isAdmin) {
 
@@ -64,11 +64,11 @@ public class InitCategorySiteAction extends ActionSupport {
 		this.pageToGoTo = pageToGoTo;
 	}
 
-	public User getUser() {
+	public Account getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(Account user) {
 		this.user = user;
 	}
 

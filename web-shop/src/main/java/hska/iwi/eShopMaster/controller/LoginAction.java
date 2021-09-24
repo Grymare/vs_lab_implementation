@@ -20,7 +20,7 @@ public class LoginAction extends ActionSupport {
 	private String password = null;
 	private String firstname;
 	private String lastname;
-	private String permission;
+	private int permission;
 	
 
 	@Override
@@ -45,7 +45,9 @@ public class LoginAction extends ActionSupport {
 				session.put("message", "");
 				firstname= user.getFirstname();
 				lastname = user.getLastname();
-				permission = Integer.toString(user.getPermission());//.getTyp();
+				//permission = Integer.toString(user.getPermission());//.getTyp();
+				permission = user.getPermission();//.getTyp();
+
 				result = "success";
 			}
 			else {
@@ -101,11 +103,11 @@ public class LoginAction extends ActionSupport {
 		this.lastname = lastname;
 	}
 
-	public String getPermission() {
+	public int getPermission() {
 		return permission;
 	}
 
-	public void setPermission(String permission) {
+	public void setPermission(int permission) {
 		this.permission = permission;
 	}
 }
