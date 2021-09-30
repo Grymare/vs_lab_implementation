@@ -5,8 +5,10 @@ import hska.iwi.eShopMaster.model.businessLogic.manager.ProductManager;
 import hska.iwi.eShopMaster.model.businessLogic.manager.REST.Account;
 import hska.iwi.eShopMaster.model.businessLogic.manager.impl.CategoryManagerImpl;
 import hska.iwi.eShopMaster.model.businessLogic.manager.impl.ProductManagerImpl;
-import hska.iwi.eShopMaster.model.database.dataobjects.Category;
-import hska.iwi.eShopMaster.model.database.dataobjects.User;
+//import hska.iwi.eShopMaster.model.database.dataobjects.Category;
+//import hska.iwi.eShopMaster.model.database.dataobjects.User;
+import hska.iwi.eShopMaster.model.businessLogic.manager.REST.Category;
+
 
 import java.util.List;
 import java.util.Map;
@@ -46,8 +48,8 @@ public class AddProductAction extends ActionSupport {
 	@Override
 	public void validate() {
 		CategoryManager categoryManager = new CategoryManagerImpl();
-		//this.setCategories(categoryManager.getCategories());
-		// Validate name:
+		this.setCategories(categoryManager.getCategories());
+		//Validate name:
 
 		if (getName() == null || getName().length() == 0) {
 			addActionError(getText("error.product.name.required"));

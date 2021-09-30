@@ -2,6 +2,7 @@ package hska.iwi.eShopMaster.model.businessLogic.manager.impl;
 
 import hska.iwi.eShopMaster.model.businessLogic.manager.CategoryManager;
 import hska.iwi.eShopMaster.model.businessLogic.manager.ProductManager;
+import hska.iwi.eShopMaster.model.businessLogic.manager.REST.Category;
 import hska.iwi.eShopMaster.model.businessLogic.manager.REST.Product;
 //import hska.iwi.eShopMaster.model.database.dataAccessObjects.ProductDAO;
 //import hska.iwi.eShopMaster.model.database.dataobjects.Category;
@@ -44,25 +45,23 @@ public class ProductManagerImpl implements ProductManager {
 	}
 	
 	public int addProduct(String name, double price, int categoryId, String details) {
-		return 0;
-		/*int productId = -1;
+		int productId = -1;
 		
-		CategoryManager categoryManager = new CategoryManagerImpl();
-		Category category = categoryManager.getCategory(categoryId);
+		//CategoryManager categoryManager = new CategoryManagerImpl();
+		//Category detailscategory = categoryManager.getCategory(categoryId);
 		
-		if(category != null){
-			Product product;
-			if(details == null){
-				product = new Product(name, price, category);	
-			} else{
-				product = new Product(name, price, category, details);
-			}
-			
-			helper.saveObject(product);
-			productId = product.getId();
+	
+		Product product;
+		if(details == null){
+			product = new Product(name, price, categoryId);	
+		} else{
+			product = new Product(name, price, details, categoryId );
 		}
+		
+		helper.addProduct(product);
+		productId = product.getId();
 			 
-		return productId;*/
+		return productId;
 	}
 	
 

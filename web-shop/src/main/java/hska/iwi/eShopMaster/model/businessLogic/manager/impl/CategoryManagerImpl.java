@@ -28,18 +28,19 @@ public class CategoryManagerImpl implements CategoryManager{
 	}
 
 	public void addCategory(String name) {
-		Category cat = new Category(name);
+		//Category cat = new Category(name);
 		//helper.saveObject(cat);
+		helper.addCategory(name);
 	}
 
 	public void delCategory(Category cat) {
 	
-// 		Products are also deleted because of relation in Category.java 
-		//helper.deleteById(cat.getId());
+	// 		Products are also deleted because of relation in Category.java 
+		helper.delCategory(cat);
 	}
 
 	public void delCategoryById(int id) {
 		
-		//helper.deleteById(id);
+		helper.delCategoryById(id);
 	}
 }

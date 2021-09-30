@@ -5,6 +5,7 @@ import hska.iwi.eShopMaster.model.database.dataAccessObjects.CategoryDAO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 
 import java.util.Arrays;
@@ -36,7 +37,7 @@ public class CategoryManagerREST {
 			return Arrays.asList(categoryArray);
 
 		} catch (Exception e) {
-			System.out.println("GETTING categorys failed!");
+			System.out.println("GETTING categories failed!");
 			System.out.println(e);
 		}
 
@@ -54,18 +55,64 @@ public class CategoryManagerREST {
 	}
 
 	public void addCategory(String name) {
-		Category cat = new Category(name);
-		// helper.saveObject(cat);
+		
+		List<Category> categories = getCategories();
+		
+		for(Category cat: categories){
+			if (cat.getName().equals(name)){
+				System.out.println("ADDCATEGORY - category "+name+" already exists");
+				return;
+			}
+		}
+		System.out.println("ADDCATEGORY category  "+name+" does not already exists");
+		try {
+			OAuth2RestTemplate restTemplateCategory = rest_templates.get_rest_template_category();
+			System.out.println("ADDCATEGORY");
+			ResponseEntity <String> responseString = restTemplateCategory.postForEntity(rest_templates.get_category_url() + "/category"+"?categoryName="+name, null,
+					String.class);
+			System.out.println(responseString);
+			
+			return;
+
+		} catch (Exception e) {
+			System.out.println("ADDING categories failed!");
+			System.out.println(e);
+		}
+		
 	}
 
 	public void delCategory(Category cat) {
 
 		// Products are also deleted because of relation in Category.java
 		// helper.deleteById(cat.getId());
+		
+		try {
+			OAuth2RestTemplate restTemplateComposite = rest_templates.get_rest_template_composite();
+			System.out.println("DELCATEGORY");
+			restTemplateComposite.delete(rest_templates.get_composite_url() + "/category/" + "?categoryID=" + cat.getId());		
+			return;
+
+		} catch (Exception e) {
+			System.out.println("DELETING category failed!");
+			System.out.println(e);
+		}
+
 	}
 
 	public void delCategoryById(int id) {
 
-		// helper.deleteById(id);
+		// Products are also deleted because of relation in Category.java
+		// helper.deleteById(cat.getId());
+		
+		try {
+			OAuth2RestTemplate restTemplateComposite = rest_templates.get_rest_template_composite();
+			System.out.println("DELCATEGORY");
+			restTemplateComposite.delete(rest_templates.get_composite_url() + "/category/" + "?categoryID=" + id);		
+			return;
+
+		} catch (Exception e) {
+			System.out.println("DELETING category failed!");
+			System.out.println(e);
+		}
 	}
 }

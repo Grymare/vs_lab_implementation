@@ -14,6 +14,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
@@ -61,12 +62,22 @@ public class ProductManagerREST {
      * public Product getProductByName(String name){
      * 
      * }
-     * 
-     * public int addProduct(String name, double price, int categoryId, String
-     * details){
-     * 
-     * }
      */
+    public int addProduct(Product product) {
+        System.out.println(rest_templates.get_product_url());
+        System.out.println("add product");
+        try {
+            OAuth2RestTemplate restTemplateProduct = rest_templates.get_rest_template_product();
+            ResponseEntity<String> productsString = restTemplateProduct.postForEntity( rest_templates.get_product_url() + "/product"
+                    + "?name=" + product.getName() + "&price=" + product.getPrice() + "&categoryId=" + product.getCategoryId() + "&details=" + product.getDetails(), null, String.class);
+            System.out.println(productsString);
+        } catch (Exception e) {
+            System.out.println("ADDING products failed!");
+            System.out.println(e);
+        }
+
+        return 1;
+    }
 
     public List<ProductOutput> getProductsForSearchValues(String searchValue, Double searchMinPrice,
             Double searchMaxPrice) {
@@ -74,7 +85,7 @@ public class ProductManagerREST {
         System.out.println("getProductsForSearchValues-0");
         System.out.println(rest_templates.get_composite_url());
         System.out.println("?searchtext=" + searchValue + "&min=" + searchMinPrice + "&max=" + searchMaxPrice);
-        
+
         try {
             OAuth2RestTemplate restTemplateComposite = rest_templates.get_rest_template_composite();
 
