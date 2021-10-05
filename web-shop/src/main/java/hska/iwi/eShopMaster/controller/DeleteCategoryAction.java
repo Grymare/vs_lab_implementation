@@ -22,12 +22,10 @@ public class DeleteCategoryAction extends ActionSupport {
 	private List<Category> categories;
 
 	public String execute() throws Exception {
-		System.out.println("ATTEMPT TO DELETE");
 		String res = "input";
 		
 		Map<String, Object> session = ActionContext.getContext().getSession();
 		Account user = (Account) session.get("webshop_user");
-		System.out.println("ATTEMPT TO DELETE");
 		if(user != null && (user.getPermission() == 0 )) {
 
 			// Helper inserts new Category in DB:
@@ -35,7 +33,7 @@ public class DeleteCategoryAction extends ActionSupport {
 			System.out.println("ATTEMPT TO DELETE");
 			categoryManager.delCategoryById(catId);
 
-			//categories = categoryManager.getCategories();
+			categories = categoryManager.getCategories();
 				
 			res = "success";
 

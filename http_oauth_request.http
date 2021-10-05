@@ -15,6 +15,8 @@ curl -i -X GET -H "Authorization: Bearer 625ea606-8358-4fbe-af79-66cce9f006e7" h
 curl -i -X GET -H "Authorization: Bearer d658103e-0d1d-492f-9dc4-847eb321ecfd" http://172.18.0.8:8771/category
 ### Request Categories Zuul
 curl -i -X GET -H "Authorization: Bearer 57340c9c-29a6-429d-b435-81e11d2d56d3" http://172.18.0.10:8791/category-service/category
+### DELETE Categories 
+curl -i -X DELETE -H "Authorization: Bearer ac3143b4-ec76-4838-b69a-c8d93801e125" http://172.18.0.10:8791/composite/category/?categoryID=4
 ### POST User 
 curl -i -X POST -H "Authorization: Bearer 1679f38b-49af-4674-9006-625fcd2f1ba3" http://172.18.0.7:8773/user -d '{"username":"sola", "firstname":"olaf", "lastname":"olafson","password":"asdf"}' -H "Content-Type: application/json"
 ### POST User Zuul
@@ -22,7 +24,7 @@ curl -i -X POST -H "Authorization: Bearer 1679f38b-49af-4674-9006-625fcd2f1ba3" 
 ### GET Product COMPOSITE
 curl -i -X GET -H "Authorization: Bearer 38a751df-4676-4921-a87f-6499829e64bc" http://172.18.0.9:8774/product
 ### Request Products COMPOSITE Zuul
-curl -i -X GET -H "Authorization: Bearer 38a751df-4676-4921-a87f-6499829e64bc" http://172.18.0.10:8791/composite/product
+curl -i -X GET -H "Authorization: Bearer ac3143b4-ec76-4838-b69a-c8d93801e125" http://172.18.0.10:8791/composite/product
 
 ##################################################
 ######################BACKUP######################

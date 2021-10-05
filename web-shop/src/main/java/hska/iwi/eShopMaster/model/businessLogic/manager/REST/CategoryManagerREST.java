@@ -107,7 +107,7 @@ public class CategoryManagerREST {
 		try {
 			OAuth2RestTemplate restTemplateComposite = rest_templates.get_rest_template_composite();
 			System.out.println("DELCATEGORY");
-			restTemplateComposite.delete(rest_templates.get_composite_url() + "/category/" + "?categoryID=" + id);		
+			restTemplateComposite.delete(rest_templates.get_composite_url() + "/category/" + id);		
 			return;
 
 		} catch (Exception e) {

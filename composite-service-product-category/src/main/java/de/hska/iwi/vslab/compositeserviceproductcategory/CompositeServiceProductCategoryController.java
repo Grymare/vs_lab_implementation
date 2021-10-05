@@ -251,18 +251,21 @@ public class CompositeServiceProductCategoryController {
     /**
      * Löscht eine Kategorie und die dazugehörigen Produkte.
      */
+    @RequestMapping(value = "/category/{categoryID}", method = RequestMethod.DELETE)
     @HystrixCommand(fallbackMethod = "deleteCategory_fallback", commandProperties = {
         @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "2") })  
-    @RequestMapping(value = "/category/{categoryID}", method = RequestMethod.DELETE)
     public HttpStatus deleteCategory(@PathVariable Integer categoryID) {
-
+        System.out.println("DELCAT-1");
         String url_product = get_product_url();
+        System.out.println("DELCAT-2");
         String url_category = get_category_url();
-
+        System.out.println("DELCAT-4");
         OAuth2RestTemplate restTemplateProduct = get_rest_template_product();
+        System.out.println("DELCAT-5");
         OAuth2RestTemplate restTemplateCategory = get_rest_template_category();
-
+        System.out.println("DELCAT-6");
         ResponseEntity<String> productResponse = restTemplateProduct.getForEntity(url_product + "/product", String.class);
+        System.out.println("DELCAT-7");
         JSONArray j_product_array = new JSONArray(productResponse.getBody().toString());
         
 
@@ -270,6 +273,8 @@ public class CompositeServiceProductCategoryController {
         //Falls ja wird diese nicht gelöscht
         //der client selbst muss diese produkte dann zuerst entfernen
         for (int i = 0; i < j_product_array.length(); i++) {
+
+            System.out.println("DELCAT-LOOP-"+i);
             JSONObject j_product = j_product_array.getJSONObject(i);
             int catID = Integer.valueOf(j_product.get("categoryID").toString());
 
@@ -279,6 +284,8 @@ public class CompositeServiceProductCategoryController {
                 restTemplateProduct.delete(url_product + "/product/" + prodID);
             }
         }
+        
+        System.out.println("DELCAT-8");
 
         // Delete category
         restTemplateCategory.delete(url_category + "/category/" + categoryID);
