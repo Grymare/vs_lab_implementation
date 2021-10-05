@@ -34,9 +34,9 @@ public class ProductManagerImpl implements ProductManager {
 		//return new ProductDAO().getProductListByCriteria(searchDescription, searchMinPrice, searchMaxPrice);
 	}
 
-	public Product getProductById(int id) {
-		return null;
-		//return helper.getObjectById(id);
+	public ProductOutput getProductById(int id) {
+
+		return helper.getProductById(id);
 	}
 
 	public Product getProductByName(String name) {

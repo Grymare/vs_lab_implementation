@@ -9,7 +9,7 @@ public interface ProductManager {
 
 	public List<ProductOutput> getProducts();
 
-	public Product getProductById(int id);
+	public ProductOutput getProductById(int id);
 
 	public Product getProductByName(String name);
 

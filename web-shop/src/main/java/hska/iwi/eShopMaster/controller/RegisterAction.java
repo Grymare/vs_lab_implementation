@@ -31,12 +31,12 @@ public class RegisterAction extends ActionSupport {
 
         UserManager userManager = new UserManagerImpl();
 
-   		this.role = userManager.getRoleByLevel(1); // 1 -> regular User, 2-> Admin
+   		//this.role = userManager.getRoleByLevel(1); // 1 -> regular User, 2-> Admin
 
    		if (!userManager.doesUserAlreadyExist(this.username)) {
     		    	
 	        // save it to database
-	        userManager.registerUser(this.username, this.firstname, this.lastname, this.password1, this.role);
+	        userManager.registerUser(this.username, this.firstname, this.lastname, this.password1, 1);
 	            // User has been saved successfully to databse:
 	        	addActionMessage("user registered, please login");
 	        	addActionError("user registered, please login");

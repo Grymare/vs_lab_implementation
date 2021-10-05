@@ -54,11 +54,31 @@ public class ProductManagerREST {
         return null;// User.withUsername("fallback").username("fallback").password(encoder.encode("supersecret")).roles("ADMIN").build();
     }
 
+    public ProductOutput getProductById(int id) {
+
+        try {
+            OAuth2RestTemplate restTemplateComposite = rest_templates.get_rest_template_composite();
+
+            String productsString = restTemplateComposite
+                    .getForObject(rest_templates.get_composite_url() + "/product/" + id, String.class);
+
+            Gson gson = new Gson();
+            ProductOutput product = gson.fromJson(productsString, ProductOutput.class);
+            System.out.println("getProductsForSearchValues-2");
+            System.out.println(product.toString());
+
+            return product;
+
+        } catch (Exception e) {
+            System.out.println("GETTING getProductsForSearchValues failed! in getProducts");
+            System.out.println(e);
+        }
+        return null;
+        
+
+    }
+
     /*
-     * public Product getProductById(int id){
-     * 
-     * }
-     * 
      * public Product getProductByName(String name){
      * 
      * }
@@ -68,8 +88,9 @@ public class ProductManagerREST {
         System.out.println("add product");
         try {
             OAuth2RestTemplate restTemplateProduct = rest_templates.get_rest_template_product();
-            ResponseEntity<String> productsString = restTemplateProduct.postForEntity( rest_templates.get_product_url() + "/product"
-                    + "?name=" + product.getName() + "&price=" + product.getPrice() + "&categoryId=" + product.getCategoryId() + "&details=" + product.getDetails(), null, String.class);
+            ResponseEntity<String> productsString = restTemplateProduct.postForEntity(rest_templates.get_product_url()
+                    + "/product" + "?name=" + product.getName() + "&price=" + product.getPrice() + "&categoryId="
+                    + product.getCategoryId() + "&details=" + product.getDetails(), null, String.class);
             System.out.println(productsString);
         } catch (Exception e) {
             System.out.println("ADDING products failed!");
@@ -114,13 +135,12 @@ public class ProductManagerREST {
 
     }
 
-
-    public void deleteProductById(int id){
+    public void deleteProductById(int id) {
         System.out.println(rest_templates.get_product_url());
         System.out.println("DELETE PRODUCT");
         try {
             OAuth2RestTemplate restTemplateProduct = rest_templates.get_rest_template_product();
-            restTemplateProduct.delete(rest_templates.get_product_url() + "/product/"+id);
+            restTemplateProduct.delete(rest_templates.get_product_url() + "/product/" + id);
         } catch (Exception e) {
             System.out.println("DELETING products failed!");
             System.out.println(e);
@@ -133,5 +153,5 @@ public class ProductManagerREST {
      * 
      * }
      */
-    
+
 }

@@ -2,6 +2,7 @@ package hska.iwi.eShopMaster.model.businessLogic.manager.REST;
 
 import java.util.Arrays;
 
+import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
@@ -85,6 +86,19 @@ public class UserManagerREST{
         }
 
         return User.withUsername("fallback").username("fallback").password(encoder.encode("supersecret")).roles("ADMIN").build();
+    }
+
+
+    public void registerUser(Account user){
+        try {
+            OAuth2RestTemplate restTemplateUser = rest_templates.get_rest_template_user();
+            System.out.println("REGISTER USER-1");
+            restTemplateUser.postForObject(rest_templates.get_user_url() + "/user", user, HttpStatus.class);
+            System.out.println("REGISTER USER-2");
+        } catch (Exception e) {
+            System.out.println("REGISTER user failed!");
+            System.out.println(e);
+        }
     }
 }
 

@@ -2,22 +2,28 @@ package hska.iwi.eShopMaster.controller;
 
 import hska.iwi.eShopMaster.model.businessLogic.manager.ProductManager;
 import hska.iwi.eShopMaster.model.businessLogic.manager.impl.ProductManagerImpl;
-import hska.iwi.eShopMaster.model.database.dataobjects.Product;
-import hska.iwi.eShopMaster.model.database.dataobjects.User;
+//import hska.iwi.eShopMaster.model.database.dataobjects.Product;
+//import hska.iwi.eShopMaster.model.database.dataobjects.User;
 
 import java.util.Map;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
+import hska.iwi.eShopMaster.model.businessLogic.manager.ProductManager;
+import hska.iwi.eShopMaster.model.businessLogic.manager.REST.Account;
+import hska.iwi.eShopMaster.model.businessLogic.manager.REST.Category;
+import hska.iwi.eShopMaster.model.businessLogic.manager.REST.Product;
+import hska.iwi.eShopMaster.model.businessLogic.manager.REST.ProductOutput;
+import hska.iwi.eShopMaster.model.businessLogic.manager.impl.ProductManagerImpl;
 public class ProductDetailsAction extends ActionSupport {
 	
-	private User user;
+	private Account user;
 	private int id;
 	private String searchValue;
 	private Integer searchMinPrice;
 	private Integer searchMaxPrice;
-	private Product product;
+	private ProductOutput product;
 
 	/**
 	 * 
@@ -29,11 +35,11 @@ public class ProductDetailsAction extends ActionSupport {
 		String res = "input";
 		
 		Map<String, Object> session = ActionContext.getContext().getSession();
-		user = (User) session.get("webshop_user");
+		Account user = (Account) session.get("webshop_user");
 		
 		if(user != null) {
 			ProductManager productManager = new ProductManagerImpl();
-			///product = productManager.getProductById(id);
+			product = productManager.getProductById(id);
 			
 			res = "success";			
 		}
@@ -41,11 +47,11 @@ public class ProductDetailsAction extends ActionSupport {
 		return res;		
 	}
 	
-	public User getUser() {
+	public Account getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(Account user) {
 		this.user = user;
 	}
 
@@ -81,11 +87,11 @@ public class ProductDetailsAction extends ActionSupport {
 		this.searchMaxPrice = searchMaxPrice;
 	}
 
-	public Product getProduct() {
+	public ProductOutput getProduct() {
 		return product;
 	}
 
-	public void setProduct(Product product) {
+	public void setProduct(ProductOutput product) {
 		this.product = product;
 	}
 }
