@@ -114,13 +114,24 @@ public class ProductManagerREST {
 
     }
 
+
+    public void deleteProductById(int id){
+        System.out.println(rest_templates.get_product_url());
+        System.out.println("DELETE PRODUCT");
+        try {
+            OAuth2RestTemplate restTemplateProduct = rest_templates.get_rest_template_product();
+            restTemplateProduct.delete(rest_templates.get_product_url() + "/product/"+id);
+        } catch (Exception e) {
+            System.out.println("DELETING products failed!");
+            System.out.println(e);
+        }
+
+    }
+
     /*
      * public boolean deleteProductsByCategoryId(int categoryId){
      * 
      * }
-     * 
-     * public void deleteProductById(int id){
-     * 
-     * }
      */
+    
 }

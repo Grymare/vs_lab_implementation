@@ -67,6 +67,10 @@ public class ProductManagerImpl implements ProductManager {
 
 	public void deleteProductById(int id) {
 		//helper.deleteById(id);
+		helper.deleteProductById(id);
+		
+
+
 	}
 
 	public boolean deleteProductsByCategoryId(int categoryId) {
