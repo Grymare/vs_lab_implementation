@@ -35,8 +35,8 @@ public class AddCategoryAction extends ActionSupport {
 			// Add category
 			categoryManager.addCategory(newCatName);
 			
-			// Go and get new Category list
-			//this.setCategories(categoryManager.getCategories());
+			//Go and get new Category list
+			this.setCategories(categoryManager.getCategories());
 			
 			res = "success";
 		}

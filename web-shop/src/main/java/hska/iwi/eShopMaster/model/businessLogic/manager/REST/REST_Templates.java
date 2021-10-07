@@ -29,9 +29,10 @@ import org.json.JSONObject;
 public class REST_Templates{
 
 	public String get_user_url(){
-        return "http://172.18.0.10:8791/user-service"; // THIS WORKS TOO!
+        return "http://zuulapplication:8791/user-service"; // THIS WORKS TOO!
         //return "http://172.18.0.7:8773/"; // THIS WORKS 
         /*
+        //DOESN'T WORK LOAD BALANCER IS NULL ERROR
         ServiceInstance serviceInstance=loadBalancer.choose("core-service-user");
         System.out.println(serviceInstance.getUri());
         return serviceInstance.getUri().toString();
@@ -45,7 +46,8 @@ public class REST_Templates{
         resourceDetailsUser.setClientAuthenticationScheme(AuthenticationScheme.header);
         resourceDetailsUser.setId("1");
         resourceDetailsUser.setTokenName("Core_User");
-        resourceDetailsUser.setAccessTokenUri("http://172.18.0.11:8300/oauth/token");
+        //resourceDetailsUser.setAccessTokenUri("http://172.18.0.11:8300/oauth/token");
+        resourceDetailsUser.setAccessTokenUri("http://oauthserver:8300/oauth/token");
         resourceDetailsUser.setClientId("coreUserId");
         resourceDetailsUser.setClientSecret("coreUserSecret");
         resourceDetailsUser.setGrantType("client_credentials");
@@ -55,9 +57,10 @@ public class REST_Templates{
     }
 
 	public String get_category_url(){
-        return "http://172.18.0.10:8791/category-service"; // THIS WORKS TOO!
+        return "http://zuulapplication:8791/category-service"; // THIS WORKS TOO!
         //return "http://172.18.0.7:8773/"; // THIS WORKS 
         /*
+        //DOESN'T WORK LOAD BALANCER IS NULL ERROR
         ServiceInstance serviceInstance=loadBalancer.choose("core-service-user");
         System.out.println(serviceInstance.getUri());
         return serviceInstance.getUri().toString();
@@ -71,7 +74,7 @@ public class REST_Templates{
         resourceDetailsCategory.setClientAuthenticationScheme(AuthenticationScheme.header);
         resourceDetailsCategory.setId("1");
         resourceDetailsCategory.setTokenName("Core_Category");
-        resourceDetailsCategory.setAccessTokenUri("http://172.18.0.11:8300/oauth/token");
+        resourceDetailsCategory.setAccessTokenUri("http://oauthserver:8300/oauth/token");
         resourceDetailsCategory.setClientId("coreCategoryId");
         resourceDetailsCategory.setClientSecret("coreCategorySecret");
         resourceDetailsCategory.setGrantType("client_credentials");
@@ -80,9 +83,10 @@ public class REST_Templates{
         return new OAuth2RestTemplate(resourceDetailsCategory, new DefaultOAuth2ClientContext(atrCategory));
     }
 	public String get_product_url(){
-        return "http://172.18.0.10:8791/product-service"; // THIS WORKS TOO!
+        return "http://zuulapplication:8791/product-service"; // THIS WORKS TOO!
         //return "http://172.18.0.7:8773/"; // THIS WORKS 
         /*
+        //DOESN'T WORK LOAD BALANCER IS NULL ERROR
         ServiceInstance serviceInstance=loadBalancer.choose("core-service-product");
         System.out.println(serviceInstance.getUri());
         return serviceInstance.getUri().toString();
@@ -96,7 +100,7 @@ public class REST_Templates{
         resourceDetailsProduct.setClientAuthenticationScheme(AuthenticationScheme.header);
         resourceDetailsProduct.setId("1");
         resourceDetailsProduct.setTokenName("Core_Product");
-        resourceDetailsProduct.setAccessTokenUri("http://172.18.0.11:8300/oauth/token");
+        resourceDetailsProduct.setAccessTokenUri("http://oauthserver:8300/oauth/token");
         resourceDetailsProduct.setClientId("coreProductId");
         resourceDetailsProduct.setClientSecret("coreProductSecret");
         resourceDetailsProduct.setGrantType("client_credentials");
@@ -105,9 +109,10 @@ public class REST_Templates{
         return new OAuth2RestTemplate(resourceDetailsProduct, new DefaultOAuth2ClientContext(atrProduct));
     }
 	public String get_composite_url(){
-        return "http://172.18.0.10:8791/composite"; // THIS WORKS TOO!
+        return "http://zuulapplication:8791/composite"; // THIS WORKS TOO!
         //return "http://172.18.0.7:8773/"; // THIS WORKS 
         /*
+        //DOESN'T WORK LOAD BALANCER IS NULL ERROR
         ServiceInstance serviceInstance=loadBalancer.choose("composite-service-product-category");
         System.out.println(serviceInstance.getUri());
         return serviceInstance.getUri().toString();
@@ -121,7 +126,7 @@ public class REST_Templates{
         resourceDetailsComposite.setClientAuthenticationScheme(AuthenticationScheme.header);
         resourceDetailsComposite.setId("1");
         resourceDetailsComposite.setTokenName("Composite");
-        resourceDetailsComposite.setAccessTokenUri("http://172.18.0.11:8300/oauth/token");
+        resourceDetailsComposite.setAccessTokenUri("http://oauthserver:8300/oauth/token");
         resourceDetailsComposite.setClientId("compositeId");
         resourceDetailsComposite.setClientSecret("compositeSecret");
         resourceDetailsComposite.setGrantType("client_credentials");
